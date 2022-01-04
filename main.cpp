@@ -30,7 +30,7 @@ int main() {
     Texture NPC_texture;
     NPC_texture.loadFromFile("../npc1.png");
     NPC npc(&NPC_texture);
-    NPC npc2(&NPC_texture);
+    NPC npc2(&NPC_texture,550.0f,550.0f);
 
     //kamera - widok, zeby dobrze scalowaĹ‚ obiekty przy zmianie rozmiaru okna i kamera przesuwala sie z postacia
     View view(Vector2f(0.0f, 0.0f), Vector2f(VIEW_HEIGHT, VIEW_HEIGHT));
@@ -87,6 +87,7 @@ int main() {
                                         window.setView(view);
                                         map.draw(window);
                                         window.draw(npc);
+                                        window.draw(npc2);
                                         window.draw(player_test);
                                         window.display();
                                     }
