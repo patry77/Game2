@@ -7,7 +7,6 @@ using namespace sf;
 
 class NPC: public sf::Drawable {
 public:
-    NPC(Texture *texture);
     NPC(Texture *texture, float pos_x, float pos_y);
     ~NPC() override = default;
 
