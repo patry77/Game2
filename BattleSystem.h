@@ -1,3 +1,4 @@
+#pragma once
 #ifndef BATTLESYSTEM_H
 #define BATTLESYSTEM_H
 
@@ -8,9 +9,7 @@
 #include <map>
 #include <random>
 
-// Forward Declaration
 namespace sf {
-
     class Texture;
     class Font;
     class Text;
@@ -61,4 +60,3 @@ private:
 };
 
 #endif
-#pragma once
