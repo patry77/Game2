@@ -1,3 +1,4 @@
+#pragma once
 #ifndef PAUSE_H_
 #define PAUSE_H_
 
@@ -6,7 +7,6 @@
 #include "UI.h"
 
 namespace sf {
-
     class Texture;
     class Font;
     class Text;
