@@ -1,9 +1,6 @@
 #include "BattleSystem.h"
 #include <iostream>
 
-/*********************************************************************
-\brief temp
-*********************************************************************/
 BattleSystem::BattleSystem(const sf::Font& font, const sf::Vector2u window_size, const sf::Texture& imagePath_title, sf::Sound& sfx):
         cursorBleep(sfx),
         window_size(window_size),
@@ -27,22 +24,13 @@ BattleSystem::BattleSystem(const sf::Font& font, const sf::Vector2u window_size,
     gen = std::default_random_engine{ device() };
 }
 
-/*********************************************************************
-\brief temp
-*********************************************************************/
 BattleSystem::~BattleSystem() {}
 
-/*********************************************************************
-\brief temp
-*********************************************************************/
 void BattleSystem::update(sf::Vector2f pos, float elapsedTime) {
     setPosition(pos);
     battleCursor.spriteAnimate(elapsedTime);
 }
 
-/*********************************************************************
-\brief temp
-*********************************************************************/
 void BattleSystem::draw(sf::RenderTarget& target, sf::RenderStates states) const {
     target.draw(background, states);
     target.draw(battleCursor, states);
@@ -51,9 +39,6 @@ void BattleSystem::draw(sf::RenderTarget& target, sf::RenderStates states) const
     target.draw(enemy, states);
 }
 
-/*********************************************************************
-\brief temp
-*********************************************************************/
 void BattleSystem::change_selection(int key) {
 
     clearStyle(battle_options[selection]);
@@ -103,9 +88,6 @@ void BattleSystem::change_selection(int key) {
     selected(battle_options[selection]);
 }
 
-/*********************************************************************
-\brief temp
-*********************************************************************/
 void BattleSystem::battle(bool ENTER_KEY, float elapsedTime) {
 
     float proportion = play_dis(gen);
@@ -138,16 +120,11 @@ void BattleSystem::battle(bool ENTER_KEY, float elapsedTime) {
         std::cout << "ENEMY HAS DIED -> YOU GAIN: 0 EXP!" << std::endl;
     }
 }
-/*********************************************************************
-\brief temp
-*********************************************************************/
+
 int BattleSystem::getSelection() {
     return selection;
 }
 
-/*********************************************************************
-\brief temp
-*********************************************************************/
 void BattleSystem::setPosition(sf::Vector2f pos) {
     if (pos != originalPos) {
         originalPos = pos;
@@ -161,9 +138,6 @@ void BattleSystem::setPosition(sf::Vector2f pos) {
     }
 }
 
-/*********************************************************************
-\brief temp
-*********************************************************************/
 std::string BattleSystem::getClass() {
     return "BattleSystem";
 }
