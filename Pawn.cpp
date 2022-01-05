@@ -2,7 +2,7 @@
 
 /*********************************************************************
 Pawn class default constructor.
-\brief Requires a texture for instantiation. The sprite_sheet
+Requires a texture for instantiation. The sprite_sheet
 *********************************************************************/
 Pawn::Pawn(const sf::Texture& imagePath):
         pawnSprite(imagePath),
@@ -12,15 +12,12 @@ Pawn::Pawn(const sf::Texture& imagePath):
     pawnSprite.setTextureRect(sf::IntRect(spriteSource.x * spriteSize, spriteSource.y * spriteSize, spriteSize, spriteSize));
 }
 
-/*********************************************************************
-Pawn class virtual destructor.
-*********************************************************************/
 Pawn::~Pawn() {
 }
 
 /*********************************************************************
 draw; inherited from class drawable.
-\brief Allows drawable class members to be drawn to the screen.
+Allows drawable class members to be drawn to the screen.
 *********************************************************************/
 void Pawn::draw(sf::RenderTarget& target, sf::RenderStates states) const {
     target.draw(pawnSprite, states);
@@ -93,38 +90,23 @@ void Pawn::spriteAnimate(float elapsedTime) {
     pawnSprite.setTextureRect(sf::IntRect(spriteSource.x * spriteSize, spriteSource.y * spriteSize, spriteSize, spriteSize));
 }
 
-/*********************************************************************
-\brief temp
-*********************************************************************/
 void Pawn::changeSprite(const sf::Texture& playerTexture) {
     pawnSprite.setTexture(playerTexture);
 }
 
-/*********************************************************************
-\brief temp
-*********************************************************************/
 sf::Sprite& Pawn::getSprite() {
     return pawnSprite;
 }
 
-/*********************************************************************
-\brief temp
-*********************************************************************/
 void Pawn::resetTextureRect() {
     spriteSource.x = 1;
     pawnSprite.setTextureRect(sf::IntRect(spriteSource.x * spriteSize, spriteSource.y * spriteSize, spriteSize, spriteSize));
 }
 
-/*********************************************************************
-\brief temp
-*********************************************************************/
 int Pawn::getDepth() {
     return -getPosition().y;
 }
 
-/*********************************************************************
-\brief temp
-*********************************************************************/
 std::string Pawn::getClass() {
     return "Pawn";
 }
