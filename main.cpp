@@ -23,13 +23,10 @@ using namespace std;
 Vector2u view_size(1000, 1000);
 bool music_play=false;
 static const float VIEW_HEIGHT = 1000;
+void resize_view(const RenderWindow &window, View &view);
 void drawUI(sf::RenderWindow& window, sf::View playerView, std::vector<UI*>& sysWindows, float elapsedTime);
 bool UI_visible(std::vector<UI*>& sysWindows);
 bool UI_visible_excluding(UI* sysWindow, std::vector<UI*> sysWindows);
-void resize_view(const RenderWindow &window, View &view){
-    float proporcja = float(window.getSize().x) / float(window.getSize().y);
-    view.setSize(VIEW_HEIGHT * proporcja, VIEW_HEIGHT);
-}
 
 int main() {
     //Muzyka
@@ -231,6 +228,11 @@ int main() {
     //system ("pause");
     return 0;
 }
+void resize_view(const RenderWindow &window, View &view){
+    float proporcja = float(window.getSize().x) / float(window.getSize().y);
+    view.setSize(VIEW_HEIGHT * proporcja, VIEW_HEIGHT);
+}
+
 void drawUI(sf::RenderWindow& window, sf::View playerView, std::vector<UI*>& sysWindows, float elapsedTime) {
     for (auto sys = sysWindows.begin(); sys != sysWindows.end(); sys++) {
         if ((*sys)->isVisible()) {
@@ -247,7 +249,6 @@ bool UI_visible(std::vector<UI*>& sysWindows) {
     }
     return false;
 }
-
 
 bool UI_visible_excluding(UI* sysWindow, std::vector<UI*> sysWindows) {
     sysWindows.erase(std::find(sysWindows.begin(), sysWindows.end(), sysWindow));
