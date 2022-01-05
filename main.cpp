@@ -29,6 +29,7 @@ bool UI_visible_excluding(UI* sysWindow, std::vector<UI*> sysWindows);
 
 int main() {
     //Muzyka
+    float volume = 20.0f;
     sf::Music music;
     if (!music.openFromFile("../muzyka.wav"))
         return -1; // error
@@ -186,7 +187,7 @@ int main() {
                                         player_test.update(delta_time);
                                         view.setCenter(player_test.get_position());
                                         if(music_play==false){
-//                                            music.play();
+                                            music.play();
                                             music_play=true;
                                         }
                                         window.clear();
@@ -205,7 +206,7 @@ int main() {
                                     break;
 
                                 case 1: //opcje
-
+                                    music.setVolume(volume);
                                     break;
 
                                 case 2: //wyjscie
