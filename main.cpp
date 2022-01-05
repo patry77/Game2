@@ -18,10 +18,7 @@ using namespace std;
 
 static const float VIEW_HEIGHT = 1000;
 
-void resize_view(const RenderWindow &window, View &view){
-    float proporcja = float(window.getSize().x) / float(window.getSize().y);
-    view.setSize(VIEW_HEIGHT * proporcja, VIEW_HEIGHT);
-}
+void resize_view(const RenderWindow &window, View &view);
 
 int main() {
     RenderWindow window {VideoMode(VIEW_HEIGHT,VIEW_HEIGHT),"Game"};
@@ -144,4 +141,9 @@ int main() {
 
     //system ("pause");
     return 0;
+}
+
+void resize_view(const RenderWindow &window, View &view){
+    float proporcja = float(window.getSize().x) / float(window.getSize().y);
+    view.setSize(VIEW_HEIGHT * proporcja, VIEW_HEIGHT);
 }
