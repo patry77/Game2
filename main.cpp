@@ -47,11 +47,13 @@ int main() {
 
     sfx_blip1.setBuffer(bleep1);
     sfx_blip2.setBuffer(bleep2);
+
     //tekstura
     sf::Texture titleTexture;
     if (!titleTexture.loadFromFile("../cursor.png")) {
         cerr << "Blad tekstury" << endl;
     }
+
     //Czcionka
     sf::Font sysFont;
     if (!sysFont.loadFromFile("../alagard.ttf")) {
@@ -59,6 +61,7 @@ int main() {
     }
     RenderWindow window {VideoMode(view_size.x, view_size.y),"Game"};
     window.setFramerateLimit(60);
+
     //UI
     std::vector<UI*> sysWindows;
 
@@ -66,6 +69,7 @@ int main() {
     BattleSystem* battlePtr = new BattleSystem(sysFont, view_size, titleTexture, sfx_blip1);
     sysWindows.push_back(battlePtr);
     sysWindows.push_back(pausePtr);
+
     //UI input
     map<int, bool> ui_kb;
     ui_kb[sf::Keyboard::Return] = false;
@@ -75,9 +79,9 @@ int main() {
     ui_kb[sf::Keyboard::Up] = false;
     ui_kb[sf::Keyboard::Down] = false;
 
-
     //Menu
     Menu menu(window.getSize().x, window.getSize().y);
+
     //Gracz
     Texture player_texture;
     player_texture.loadFromFile("../body_move.png");
@@ -201,6 +205,7 @@ int main() {
                                     break;
 
                                 case 1: //opcje
+
                                     break;
 
                                 case 2: //wyjscie
