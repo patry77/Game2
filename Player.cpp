@@ -1,5 +1,5 @@
 #include "Player.h"
-
+#include "NPC.h"
  Player::Player(Texture *texture, Vector2u image_count, float switch_time)
  : animation(texture, image_count, switch_time){
     row = 0;
@@ -15,7 +15,6 @@ void Player::draw(RenderTarget &target, RenderStates state) const{
 
 void Player::update(float delta_time) {
     Vector2f movement(0.0f, 0.0f);
-
     //kolizja lewo
     if(body.getPosition().x < 0)
         this->body.setPosition(0.f, body.getPosition().y);
@@ -89,4 +88,11 @@ void Player::update(float delta_time) {
 
     body.setTextureRect(animation.uv_rect);
     body.move(movement);
+}
+void Player::allow_input() {
+    allow_player_input = true;
+}
+
+void Player::block_input() {
+    allow_player_input = false;
 }
