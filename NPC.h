@@ -9,7 +9,7 @@ class NPC: public sf::Drawable {
 public:
     NPC(Texture *texture, float pos_x, float pos_y);
     ~NPC() override = default;
-
+    FloatRect npcBounds;
     float pos_x=0.0f;
     float pos_y=0.0f;
 
