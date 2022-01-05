@@ -89,6 +89,9 @@ int main() {
     NPC_texture.loadFromFile("../npc1.png");
     NPC npc2(&NPC_texture,550.0f,550.0f);
 
+    //Enemies
+    Texture Enemy_texture;
+    Enemy_texture.loadFromFile("../npc1.png");
     int enemy_count = 10;
     vector<NPC> enemy;
     srand( time( NULL ) );
@@ -96,7 +99,7 @@ int main() {
         float pos_x = ( rand() % 1921 );
         float pos_y = ( rand() % 1081 );
 
-        NPC temp_enemy {&NPC_texture, pos_x, pos_y};
+        NPC temp_enemy {&Enemy_texture, pos_x, pos_y};
         enemy.push_back(temp_enemy);
     }
 
