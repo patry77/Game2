@@ -206,6 +206,7 @@ int main() {
                                     break;
 
                                 case 1: //opcje
+
                                     music.setVolume(volume);
                                     break;
 
