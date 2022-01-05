@@ -1,4 +1,12 @@
+/*
+ * Mateusz Lugowski
+ * Patryk Kucek
+ * Oskar Maciaszek
+*/
 #include <iostream>
+#include <vector>
+#include <cstdlib>
+#include <ctime>
 #include <SFML/Graphics.hpp>
 #include "Player.h"
 #include "Map.h"
@@ -29,10 +37,20 @@ int main() {
     //NPC
     Texture NPC_texture;
     NPC_texture.loadFromFile("../npc1.png");
-    NPC npc(&NPC_texture);
     NPC npc2(&NPC_texture,550.0f,550.0f);
 
-    //kamera - widok, zeby dobrze scalowaĹ‚ obiekty przy zmianie rozmiaru okna i kamera przesuwala sie z postacia
+    int enemy_count = 10;
+    vector<NPC> enemy;
+    srand( time( NULL ) );
+    for(int i =0; i<enemy_count; i++){
+        float pos_x = ( rand() % 1921 );
+        float pos_y = ( rand() % 1081 );
+
+        NPC temp_enemy {&NPC_texture, pos_x, pos_y};
+        enemy.push_back(temp_enemy);
+    }
+
+    //kamera - widok, zeby dobrze scalowal‚ obiekty przy zmianie rozmiaru okna i kamera przesuwala sie z postacia
     View view(Vector2f(0.0f, 0.0f), Vector2f(VIEW_HEIGHT, VIEW_HEIGHT));
 
     //mapa
@@ -86,8 +104,10 @@ int main() {
                                         window.clear();
                                         window.setView(view);
                                         map.draw(window);
-                                        window.draw(npc);
                                         window.draw(npc2);
+                                        for(int i=0; i<enemy_count; i++){
+                                            window.draw(enemy.at(i));
+                                        }
                                         window.draw(player_test);
                                         window.display();
                                     }
