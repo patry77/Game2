@@ -22,7 +22,6 @@ using namespace std;
 
 Vector2u view_size(1000, 1000);
 bool music_play=false;
-static const float VIEW_HEIGHT = 1000;
 void resize_view(const RenderWindow &window, View &view);
 void drawUI(sf::RenderWindow& window, sf::View playerView, std::vector<UI*>& sysWindows, float elapsedTime);
 bool UI_visible(std::vector<UI*>& sysWindows);
@@ -58,7 +57,7 @@ int main() {
     if (!sysFont.loadFromFile("../alagard.ttf")) {
         cerr << "błąd" << endl;
     }
-    RenderWindow window {VideoMode(VIEW_HEIGHT,VIEW_HEIGHT),"Game"};
+    RenderWindow window {VideoMode(view_size.x, view_size.y),"Game"};
     window.setFramerateLimit(60);
     //UI
     std::vector<UI*> sysWindows;
@@ -164,7 +163,7 @@ int main() {
                             menu.MoveDown();
                             break;
                         case Keyboard::M:
-
+//                            battlePtr->draw()
                         case Keyboard::Return:
                             switch (menu.GetPressedItem()){
                                 case 0: //play
@@ -183,7 +182,7 @@ int main() {
                                         player_test.update(delta_time);
                                         view.setCenter(player_test.get_position());
                                         if(music_play==false){
-                                            music.play();
+//                                            music.play();
                                             music_play=true;
                                         }
                                         window.clear();
@@ -233,7 +232,7 @@ int main() {
 }
 void resize_view(const RenderWindow &window, View &view){
     float proporcja = float(window.getSize().x) / float(window.getSize().y);
-    view.setSize(VIEW_HEIGHT * proporcja, VIEW_HEIGHT);
+    view.setSize(view_size.x * proporcja, view_size.x);
 }
 
 void drawUI(sf::RenderWindow& window, sf::View playerView, std::vector<UI*>& sysWindows, float elapsedTime) {
