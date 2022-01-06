@@ -5,7 +5,7 @@
     row = 0;
     body.setSize(Vector2f(64.0f, 64.0f));
     body.setOrigin(body.getSize() / 2.0f);
-    body.setPosition(960.f, 540.f);
+    body.setPosition(2880.0f, 2880.0f);
     body.setTexture(texture);
 }
 
@@ -16,17 +16,17 @@ void Player::draw(RenderTarget &target, RenderStates state) const{
 void Player::update(float delta_time) {
     Vector2f movement(0.0f, 0.0f);
     //kolizja lewo
-    if(body.getPosition().x < 0)
-        this->body.setPosition(0.f, body.getPosition().y);
+    if(body.getPosition().x < 961.0f)
+        this->body.setPosition(961.0f, body.getPosition().y);
     //kolizja gora
-    if(body.getPosition().y < 0)
-        body.setPosition(body.getPosition().x, 0);
+    if(body.getPosition().y < 576.0f)
+        body.setPosition(body.getPosition().x, 576.0f);
     //kolizja prawo
-    if(body.getPosition().x + body.getGlobalBounds().width > 1920)
-        body.setPosition(1920-body.getGlobalBounds().width, body.getPosition().y);
+    if(body.getPosition().x + body.getGlobalBounds().width > (5760.0f-961.0f))
+        body.setPosition((5760.0f-961.0f)-body.getGlobalBounds().width, body.getPosition().y);
     //kolizja dol
-    if(body.getPosition().y + body.getGlobalBounds().height > 1080)
-        body.setPosition(body.getPosition().x, 1080-body.getGlobalBounds().height);
+    if(body.getPosition().y + body.getGlobalBounds().height > (5760.0f-576.0f))
+        body.setPosition(body.getPosition().x, (5760.0f-576.0f)-body.getGlobalBounds().height);
 
     //poruszanie sie
     if (Keyboard::isKeyPressed(Keyboard::A) || Keyboard::isKeyPressed(Keyboard::Left)){

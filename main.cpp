@@ -90,18 +90,18 @@ int main() {
 
     //NPC
     Texture NPC_texture;
-    NPC_texture.loadFromFile("../npc1.png");
-    NPC npc2(&NPC_texture,550.0f,550.0f);
+    NPC_texture.loadFromFile("../body1.png");
+    NPC npc2(&NPC_texture,2800.0f,2800.0f);
 
     //Enemies
     Texture Enemy_texture;
     Enemy_texture.loadFromFile("../npc1.png");
-    int enemy_count = 10;
+    int enemy_count = 300;
     vector<NPC> enemy;
     srand( time( NULL ) );
-    for(int i =0; i<enemy_count; i++){
-        float pos_x = ( rand() % 1921 );
-        float pos_y = ( rand() % 1081 );
+    for(int i =0; i<enemy_count; i++){ //losowanie pozycji w rozmiarach granic
+        float pos_x = (( rand() % (4799-1100) ) + 970);
+        float pos_y = (( rand() % (5184-700) ) + 580);
 
         NPC temp_enemy {&Enemy_texture, pos_x, pos_y};
         enemy.push_back(temp_enemy);
@@ -187,7 +187,7 @@ int main() {
                                         player_test.update(delta_time);
                                         view.setCenter(player_test.get_position());
                                         if(music_play==false){
-                                            music.play();
+                                            //music.play();
                                             music_play=true;
                                         }
                                         window.clear();
