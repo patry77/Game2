@@ -30,8 +30,9 @@ bool UI_visible_excluding(UI* sysWindow, std::vector<UI*> sysWindows);
 
 int main() {
     //Muzyka
-    float volume = 30.0f;
+    float volume = 10.0f;
     sf::Music music;
+    music.setVolume(volume);
     if (!music.openFromFile("../muzyka.wav"))
         return -1; // error
 
@@ -207,10 +208,11 @@ int main() {
                                     window.setView(view);
                                     break;
 
-                                case 1: //opcje
-                                    while (!Keyboard::isKeyPressed(Keyboard::Escape)){
-                                        while (window.pollEvent(ev)){
-                                            switch (ev.type){
+                                case 1: { //opcje
+                                    bool move_back = false;
+                                    while (!move_back && !Keyboard::isKeyPressed(Keyboard::Escape)) {
+                                        while (window.pollEvent(ev)) {
+                                            switch (ev.type) {
                                                 case Event::Closed:
                                                     window.close();
                                                     break;
@@ -220,7 +222,7 @@ int main() {
                                                     break;
 
                                                 case Event::KeyReleased:
-                                                    switch (ev.key.code){
+                                                    switch (ev.key.code) {
                                                         case Keyboard::Up:
                                                             settings_menu.MoveUp();
                                                             break;
@@ -234,19 +236,25 @@ int main() {
                                                             settings_menu.MoveDown();
                                                             break;
                                                         case Keyboard::Return:
-                                                            switch (settings_menu.GetPressedItem()){
-                                                                case 0:
-                                                                    if(volume<=90){
-                                                                        volume += 10;
-                                                                        music.setVolume(volume);
-                                                                    }
-                                                                    break;
+                                                            switch (settings_menu.GetPressedItem()) {
                                                                 case 1:
-                                                                    if(volume>=10){
-                                                                        volume -= 10;
+                                                                    if (volume <= 95) {
+                                                                        volume += 5;
                                                                         music.setVolume(volume);
+                                                                        settings_menu.Change_sound_display(volume);
                                                                     }
                                                                     break;
+                                                                case 2:
+                                                                    if (volume >= 5) {
+                                                                        volume -= 5;
+                                                                        music.setVolume(volume);
+                                                                        settings_menu.Change_sound_display(volume);
+                                                                    }
+                                                                    break;
+                                                                case 3:
+                                                                    if (ev.key.code == Keyboard::Return)
+                                                                        move_back = true;
+                                                                        break;
                                                             }
                                                     }
                                             }
@@ -255,6 +263,7 @@ int main() {
                                         settings_menu.draw(window);
                                         window.display();
                                     }
+                                }
                                     break;
 
                                 case 2: //wyjscie

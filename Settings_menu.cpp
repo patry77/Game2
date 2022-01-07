@@ -8,20 +8,37 @@ Settings_menu::Settings_menu(float width, float height)
     }
 
     settings_menu[0].setFont(font);
-    settings_menu[0].setFillColor(sf::Color::Red);
-    settings_menu[0].setString("Glosniej");
+    settings_menu[0].setFillColor(sf::Color::Green);
+    settings_menu[0].setString("Dzwiek: 10");
     settings_menu[0].setPosition(sf::Vector2f(width/2,height/(MAX_NUMBER_OF_ITEMS+1)*1));
 
     settings_menu[1].setFont(font);
-    settings_menu[1].setFillColor(sf::Color::White);
-    settings_menu[1].setString("Ciszej");
+    settings_menu[1].setFillColor(sf::Color::Red);
+    settings_menu[1].setString("Glosniej");
     settings_menu[1].setPosition(sf::Vector2f(width/2,height/(MAX_NUMBER_OF_ITEMS+1)*2));
 
-    selectedItemIndex = 0;
+    settings_menu[2].setFont(font);
+    settings_menu[2].setFillColor(sf::Color::White);
+    settings_menu[2].setString("Ciszej");
+    settings_menu[2].setPosition(sf::Vector2f(width/2,height/(MAX_NUMBER_OF_ITEMS+1)*3));
+
+    settings_menu[3].setFont(font);
+    settings_menu[3].setFillColor(sf::Color::White);
+    settings_menu[3].setString("Powrot");
+    settings_menu[3].setPosition(sf::Vector2f(width/2,height/(MAX_NUMBER_OF_ITEMS+1)*4));
+
+    selectedItemIndex = 1;
 }
 
 Settings_menu::~Settings_menu()
 {}
+
+void Settings_menu::Change_sound_display(float volume){
+    int int_volume = static_cast<int>(volume);
+    sf::String string_volume=std::to_string(int_volume);
+    sf::String glosnosc = "Dzwiek: " + string_volume;
+    settings_menu[0].setString(glosnosc);
+}
 
 void Settings_menu::draw(sf::RenderWindow &window)
 {
@@ -33,7 +50,7 @@ void Settings_menu::draw(sf::RenderWindow &window)
 
 void Settings_menu::MoveUp()
 {
-    if(selectedItemIndex - 1 >= 0)
+    if(selectedItemIndex - 1 >= 1)
     {
         settings_menu[selectedItemIndex].setFillColor(sf::Color::White);
         selectedItemIndex--;
