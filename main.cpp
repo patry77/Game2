@@ -11,6 +11,7 @@
 #include "Player.h"
 #include "Map.h"
 #include "Menu.h"
+#include "Settings_menu.h"
 #include "NPC.h"
 #include "UI.h"
 #include "Pause.h"
@@ -29,7 +30,7 @@ bool UI_visible_excluding(UI* sysWindow, std::vector<UI*> sysWindows);
 
 int main() {
     //Muzyka
-    float volume = 20.0f;
+    float volume = 30.0f;
     sf::Music music;
     if (!music.openFromFile("../muzyka.wav"))
         return -1; // error
@@ -82,6 +83,7 @@ int main() {
 
     //Menu
     Menu menu(window.getSize().x, window.getSize().y);
+    Settings_menu settings_menu(window.getSize().x, window.getSize().y);
 
     //Gracz
     Texture player_texture;
@@ -187,7 +189,7 @@ int main() {
                                         player_test.update(delta_time);
                                         view.setCenter(player_test.get_position());
                                         if(music_play==false){
-                                            //music.play();
+                                            music.play();
                                             music_play=true;
                                         }
                                         window.clear();
@@ -206,8 +208,53 @@ int main() {
                                     break;
 
                                 case 1: //opcje
+                                    while (!Keyboard::isKeyPressed(Keyboard::Escape)){
+                                        while (window.pollEvent(ev)){
+                                            switch (ev.type){
+                                                case Event::Closed:
+                                                    window.close();
+                                                    break;
 
-                                    music.setVolume(volume);
+                                                case Event::Resized:
+                                                    resize_view(window, view);
+                                                    break;
+
+                                                case Event::KeyReleased:
+                                                    switch (ev.key.code){
+                                                        case Keyboard::Up:
+                                                            settings_menu.MoveUp();
+                                                            break;
+                                                        case Keyboard::W:
+                                                            settings_menu.MoveUp();
+                                                            break;
+                                                        case Keyboard::Down:
+                                                            settings_menu.MoveDown();
+                                                            break;
+                                                        case Keyboard::S:
+                                                            settings_menu.MoveDown();
+                                                            break;
+                                                        case Keyboard::Return:
+                                                            switch (settings_menu.GetPressedItem()){
+                                                                case 0:
+                                                                    if(volume<=90){
+                                                                        volume += 10;
+                                                                        music.setVolume(volume);
+                                                                    }
+                                                                    break;
+                                                                case 1:
+                                                                    if(volume>=10){
+                                                                        volume -= 10;
+                                                                        music.setVolume(volume);
+                                                                    }
+                                                                    break;
+                                                            }
+                                                    }
+                                            }
+                                        }
+                                        window.clear();
+                                        settings_menu.draw(window);
+                                        window.display();
+                                    }
                                     break;
 
                                 case 2: //wyjscie

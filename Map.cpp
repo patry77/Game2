@@ -1,7 +1,7 @@
 #include "Map.h"
 
 Map::Map() : tileHeight(64), tileWidth(64) {
-    tileSheet.loadFromFile("../background2.png");
+    tileSheet.loadFromFile("../background.png");
     tile.setTexture(tileSheet);
     initIntRect();
 }
