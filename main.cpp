@@ -93,7 +93,7 @@ int main() {
 
     //NPC
     Texture NPC_texture;
-    NPC_texture.loadFromFile("../body1.png");
+    NPC_texture.loadFromFile("../body_move.png");
     NPC npc2(&NPC_texture,2800.0f,2800.0f);
 
     //Enemies
