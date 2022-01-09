@@ -18,10 +18,22 @@ private:
     sf::Texture tileSheet;
     sf::Sprite tile;
 
-    sf::IntRect pinkPath;
-    sf::IntRect woodenBox;
-    sf::IntRect grass;
-    sf::IntRect stoneWall;
+    sf::IntRect flor;
+    sf::IntRect Border;
+    sf::IntRect RightDownCorner;
+    sf::IntRect RightUpCorner;
+    sf::IntRect LeftBorder;
+    sf::IntRect RightBorder;
+    sf::IntRect LeftDownCorner;
+    sf::IntRect LeftUpCorner;
+    sf::IntRect SukienniceLeftBorder;
+    sf::IntRect SukienniceLeftArcUp;
+    sf::IntRect SukienniceRightArcUp;
+    sf::IntRect SukienniceLeftCorner;
+    sf::IntRect SukienniceLeftArcDown;
+    sf::IntRect SukienniceRightArcDown;
+
+
 };
 
 
