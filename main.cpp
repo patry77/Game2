@@ -12,6 +12,7 @@
 #include "Map.h"
 #include "Menu.h"
 #include "Settings_menu.h"
+#include "Combat_menu.h"
 #include "NPC.h"
 #include "UI.h"
 #include "Pause.h"
@@ -87,6 +88,7 @@ int main() {
     //Menu
     Menu menu(window.getSize().x, window.getSize().y);
     Settings_menu settings_menu(window.getSize().x, window.getSize().y);
+    Combat_menu combat_menu(window.getSize().x, window.getSize().y);
 
     //Gracz
     Texture player_texture;
@@ -190,6 +192,7 @@ int main() {
                                             }
                                         }
                                         player_test.update(delta_time);
+
                                         if(collision_detection(enemy_count, enemy, player_test)){
                                             while (!Keyboard::isKeyPressed(Keyboard::Escape)) {
                                                 while (window.pollEvent(ev)) {
@@ -201,9 +204,37 @@ int main() {
                                                         case Event::Resized:
                                                             resize_view(window, view);
                                                             break;
+
+                                                        case Event::KeyReleased:
+                                                            switch (ev.key.code) {
+                                                                case Keyboard::Up:
+                                                                    combat_menu.MoveUp();
+                                                                    break;
+                                                                case Keyboard::W:
+                                                                    combat_menu.MoveUp();
+                                                                    break;
+                                                                case Keyboard::Down:
+                                                                    combat_menu.MoveDown();
+                                                                    break;
+                                                                case Keyboard::S:
+                                                                    combat_menu.MoveDown();
+                                                                    break;
+                                                                case Keyboard::Return:
+                                                                    switch (combat_menu.GetPressedItem()){
+                                                                        case 0:
+                                                                            break;
+                                                                        case 1:
+                                                                            break;
+                                                                        case 2:
+                                                                            break;
+                                                                        case 3:
+                                                                            break;
+                                                                    }
+                                                            }
                                                     }
                                                 }
                                                 window.clear();
+                                                combat_menu.draw(window);
                                                 window.display();
                                             }
                                         }
