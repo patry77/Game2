@@ -233,7 +233,7 @@ int main() {
                                                             }
                                                     }
                                                 }
-                                                window.clear();
+                                                window.clear(Color::Red);
                                                 combat_menu.draw(window);
                                                 window.display();
                                             }

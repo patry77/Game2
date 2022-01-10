@@ -21,7 +21,7 @@ private:
     Animation animation;
     unsigned int row;
     bool allow_player_input;
-    float walk_speed { 100.0f };
+    float walk_speed { 400.0f };
     FloatRect nextPos;
     FloatRect playerBounds;
     void draw(RenderTarget &target, RenderStates state) const override;
