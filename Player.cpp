@@ -16,14 +16,14 @@ void Player::draw(RenderTarget &target, RenderStates state) const{
 void Player::update(float delta_time) {
     Vector2f movement(0.0f, 0.0f);
     //kolizja lewo
-    if(body.getPosition().x < 936.0f)
-        this->body.setPosition(936.0f, body.getPosition().y);
+    if(body.getPosition().x < 930.0f)
+        this->body.setPosition(930.0f, body.getPosition().y);
     //kolizja gora
     if(body.getPosition().y < 576.0f)
         body.setPosition(body.getPosition().x, 576.0f);
     //kolizja prawo
-    if(body.getPosition().x + body.getGlobalBounds().width > (5760.0f-936.0f))
-        body.setPosition((5760.0f-936.0f)-body.getGlobalBounds().width, body.getPosition().y);
+    if(body.getPosition().x + body.getGlobalBounds().width > (5760.0f-930.0f))
+        body.setPosition((5760.0f-930.0f)-body.getGlobalBounds().width, body.getPosition().y);
     //kolizja dol
     if(body.getPosition().y + body.getGlobalBounds().height > (5760.0f-576.0f))
         body.setPosition(body.getPosition().x, (5760.0f-576.0f)-body.getGlobalBounds().height);
