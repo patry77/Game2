@@ -9,10 +9,10 @@ class Player: public sf::Drawable{
 public:
     Player(Texture *texture, Vector2u image_count, float switch_time);
     Player() = delete;
-    ~Player() override = default;
+    ~Player() = default;
     void allow_input();
     void block_input();
-    Vector2f get_position() { return body.getPosition(); }
+    Vector2f get_position() const { return body.getPosition(); }
     void collided();
     void update(float delta_time);
 
@@ -21,7 +21,7 @@ private:
     Animation animation;
     unsigned int row;
     bool allow_player_input;
-    float walk_speed { 800.0f };
+    float walk_speed { 100.0f };
     FloatRect nextPos;
     FloatRect playerBounds;
     void draw(RenderTarget &target, RenderStates state) const override;

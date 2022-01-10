@@ -24,6 +24,8 @@ using namespace std;
 Vector2u view_size(1000, 1000);
 bool music_play=false;
 void resize_view(const RenderWindow &window, View &view);
+bool collision_detection(int enemy_count, vector<NPC> &enemy, Player &player_test);
+
 void drawUI(sf::RenderWindow& window, sf::View playerView, std::vector<UI*>& sysWindows, float elapsedTime);
 bool UI_visible(std::vector<UI*>& sysWindows);
 bool UI_visible_excluding(UI* sysWindow, std::vector<UI*> sysWindows);
@@ -99,7 +101,7 @@ int main() {
     //Enemies
     Texture Enemy_texture;
     Enemy_texture.loadFromFile("../npc1.png");
-    int enemy_count = 300;
+    int enemy_count = 100;
     vector<NPC> enemy;
     srand( time( NULL ) );
     for(int i =0; i<enemy_count; i++){ //losowanie pozycji w rozmiarach granic
@@ -188,6 +190,23 @@ int main() {
                                             }
                                         }
                                         player_test.update(delta_time);
+                                        if(collision_detection(enemy_count, enemy, player_test)){
+                                            while (!Keyboard::isKeyPressed(Keyboard::Escape)) {
+                                                while (window.pollEvent(ev)) {
+                                                    switch (ev.type) {
+                                                        case Event::Closed:
+                                                            window.close();
+                                                            break;
+
+                                                        case Event::Resized:
+                                                            resize_view(window, view);
+                                                            break;
+                                                    }
+                                                }
+                                                window.clear();
+                                                window.display();
+                                            }
+                                        }
                                         view.setCenter(player_test.get_position());
                                         if(music_play==false){
                                             music.play();
@@ -296,6 +315,17 @@ int main() {
 void resize_view(const RenderWindow &window, View &view){
     float proporcja = float(window.getSize().x) / float(window.getSize().y);
     view.setSize(view_size.x * proporcja, view_size.x);
+}
+
+bool collision_detection(int enemy_count, vector<NPC> &enemy, Player &player_test){
+    for(size_t i = 0; i<enemy_count; i++){
+        const float radius_mistake = 32.0f;
+        if(player_test.get_position().x <= (enemy[i].get_position().x+radius_mistake) && player_test.get_position().x >= (enemy[i].get_position().x-radius_mistake)
+        && player_test.get_position().y <= (enemy[i].get_position().y+radius_mistake) && player_test.get_position().y >= (enemy[i].get_position().y-radius_mistake)){
+            enemy.at(i).set_position();
+            return true;
+        }
+    } return false;
 }
 
 void drawUI(sf::RenderWindow& window, sf::View playerView, std::vector<UI*>& sysWindows, float elapsedTime) {
