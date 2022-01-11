@@ -97,7 +97,7 @@ int main() {
 
     //NPC
     Texture NPC_texture;
-    NPC_texture.loadFromFile("../body_move.png");
+    NPC_texture.loadFromFile("../cursor.png");
     NPC npc2(&NPC_texture,2800.0f,2800.0f);
 
     //Enemies
@@ -127,25 +127,6 @@ int main() {
     while(window.isOpen()){
         delta_time = clock.restart().asSeconds();
         Event ev{};
-        if (battlePtr->isVisible() && !UI_visible_excluding(battlePtr, sysWindows)) {
-            if (ui_kb[ev.key.code])
-                battlePtr->change_selection(ev.key.code);
-            if (ui_kb[sf::Keyboard::Return]) {
-                switch (battlePtr->getSelection()) {
-                    case(Battle::Fight) :
-                        break;
-                    case(Battle::Items) :
-                        std::cout << "Nie dziala jeszcze" << std::endl;
-                        break;
-                    case(Battle::Status) :
-                        std::cout << "Nie dziala jeszcze" << std::endl;
-                        break;
-                    case(Battle::Escape) :
-                        battlePtr->setVisible(false);
-                        break;
-                }
-            }
-        }
         if (ui_kb[sf::Keyboard::Escape]) {
             if (!UI_visible_excluding(pausePtr, sysWindows)) {
                 pausePtr->setVisible(!pausePtr->isVisible());
@@ -195,7 +176,9 @@ int main() {
 
                                         if(collision_detection(enemy_count, enemy, player_test)){
                                             Combat_menu combat_menu(window.getSize().x, window.getSize().y, player_test.get_position());
-                                            while (!Keyboard::isKeyPressed(Keyboard::X)) {
+                                            bool run = false;
+                                            float szansa = 0.0;
+                                            while (!run && !Keyboard::isKeyPressed(Keyboard::X)) {
                                                 while (window.pollEvent(ev)) {
                                                     switch (ev.type) {
                                                         case Event::Closed:
@@ -221,16 +204,20 @@ int main() {
                                                                     combat_menu.MoveDown();
                                                                     break;
                                                                 case Keyboard::Return:
+
                                                                     switch (combat_menu.GetPressedItem()) {
                                                                         case 0:
-                                                                            cout << "Coś" << endl;
+
                                                                             break;
                                                                         case 1:
-                                                                            cout << "222" <<endl;
+
                                                                             break;
                                                                         case 2:
                                                                             break;
                                                                         case 3:
+                                                                            if (ev.key.code == Keyboard::Return) {szansa = ( rand() % (100) ) + 1;}
+                                                                            if (szansa > 40){run = true;}
+                                                                            else {cout<<"Ucieczka nie powiodla sie\n";}
                                                                             break;
                                                                     }
                                                             }
