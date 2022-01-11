@@ -194,9 +194,9 @@ int main() {
                                         player_test.update(delta_time);
 
                                         if(collision_detection(enemy_count, enemy, player_test)){
-                                            while (!Keyboard::isKeyPressed(Keyboard::Escape)) {
-                                                while (window.pollEvent(ev)) {
-                                                    switch (ev.type) {
+                                            while (!Keyboard::isKeyPressed(Keyboard::X)){
+                                                while (window.pollEvent(ev)){
+                                                    switch (ev.type){
                                                         case Event::Closed:
                                                             window.close();
                                                             break;
