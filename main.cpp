@@ -223,10 +223,8 @@ int main() {
                                                                 case Keyboard::Return:
                                                                     switch (combat_menu.GetPressedItem()) {
                                                                         case 0:
-                                                                            cout << "Coś" << endl;
                                                                             break;
                                                                         case 1:
-                                                                            cout << "222" <<endl;
                                                                             break;
                                                                         case 2:
                                                                             break;
