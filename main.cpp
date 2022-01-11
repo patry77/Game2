@@ -88,7 +88,7 @@ int main() {
     //Menu
     Menu menu(window.getSize().x, window.getSize().y);
     Settings_menu settings_menu(window.getSize().x, window.getSize().y);
-    Combat_menu combat_menu(window.getSize().x, window.getSize().y);
+
 
     //Gracz
     Texture player_texture;
@@ -194,7 +194,8 @@ int main() {
                                         player_test.update(delta_time);
 
                                         if(collision_detection(enemy_count, enemy, player_test)){
-                                            while (!Keyboard::isKeyPressed(Keyboard::Escape)) {
+                                            Combat_menu combat_menu(window.getSize().x, window.getSize().y, player_test.get_position());
+                                            while (!Keyboard::isKeyPressed(Keyboard::X)) {
                                                 while (window.pollEvent(ev)) {
                                                     switch (ev.type) {
                                                         case Event::Closed:
@@ -220,10 +221,12 @@ int main() {
                                                                     combat_menu.MoveDown();
                                                                     break;
                                                                 case Keyboard::Return:
-                                                                    switch (combat_menu.GetPressedItem()){
+                                                                    switch (combat_menu.GetPressedItem()) {
                                                                         case 0:
+                                                                            cout << "Coś" << endl;
                                                                             break;
                                                                         case 1:
+                                                                            cout << "222" <<endl;
                                                                             break;
                                                                         case 2:
                                                                             break;
@@ -232,11 +235,14 @@ int main() {
                                                                     }
                                                             }
                                                     }
+
                                                 }
+                                                //window.clear(Color::Red);
                                                 window.clear();
                                                 combat_menu.draw(window);
                                                 window.display();
                                             }
+
                                         }
                                         view.setCenter(player_test.get_position());
                                         if(music_play==false){
@@ -251,7 +257,7 @@ int main() {
                                             window.draw(enemy.at(i));
                                         }
                                         window.draw(player_test);
-                                        drawUI(window, view, sysWindows, delta_time);
+                                        //drawUI(window, view, sysWindows, delta_time);
                                         window.display();
                                     }
                                     view.setCenter(540.0f, 540.0f);

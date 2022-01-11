@@ -7,7 +7,7 @@
 
 class Combat_menu {
 public:
-    Combat_menu(float width, float height);
+    Combat_menu(float width, float height, sf::Vector2f player_position);
     ~Combat_menu();
 
     void draw(sf::RenderWindow &window);

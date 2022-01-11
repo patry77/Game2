@@ -13,6 +13,7 @@ public:
     void allow_input();
     void block_input();
     Vector2f get_position() const { return body.getPosition(); }
+    //void set_position() { body.setPosition(0.0f,0.0f); } kiedyś może się przyda
     void collided();
     void update(float delta_time);
 
@@ -21,7 +22,7 @@ private:
     Animation animation;
     unsigned int row;
     bool allow_player_input;
-    float walk_speed { 100.0f };
+    float walk_speed { 400.0f };
     FloatRect nextPos;
     FloatRect playerBounds;
     void draw(RenderTarget &target, RenderStates state) const override;
