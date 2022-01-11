@@ -208,16 +208,16 @@ int main() {
 
                                                         case Event::KeyReleased:
                                                             switch (ev.key.code) {
-                                                                case Keyboard::Up:
+                                                                case Keyboard::Left:
                                                                     combat_menu.MoveUp();
                                                                     break;
-                                                                case Keyboard::W:
+                                                                case Keyboard::A:
                                                                     combat_menu.MoveUp();
                                                                     break;
-                                                                case Keyboard::Down:
+                                                                case Keyboard::Right:
                                                                     combat_menu.MoveDown();
                                                                     break;
-                                                                case Keyboard::S:
+                                                                case Keyboard::D:
                                                                     combat_menu.MoveDown();
                                                                     break;
                                                                 case Keyboard::Return:

@@ -10,7 +10,7 @@ Combat_menu::Combat_menu(float width, float height, sf::Vector2f player_position
     combat_menu[0].setFont(font);
     combat_menu[0].setFillColor(sf::Color::Green);
     combat_menu[0].setString("Walcz");
-    combat_menu[0].setPosition(player_position.x-512,player_position.y);
+    combat_menu[0].setPosition(player_position.x-500,player_position.y);
 
     combat_menu[1].setFont(font);
     combat_menu[1].setFillColor(sf::Color::Red);
@@ -25,7 +25,7 @@ Combat_menu::Combat_menu(float width, float height, sf::Vector2f player_position
     combat_menu[3].setFont(font);
     combat_menu[3].setFillColor(sf::Color::White);
     combat_menu[3].setString("Powrwwwwwwot");
-    combat_menu[3].setPosition(player_position.x+256,player_position.y);
+    combat_menu[3].setPosition(player_position.x+300,player_position.y);
 
     selectedItemIndex = 1;
 }
