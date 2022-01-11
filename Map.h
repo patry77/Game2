@@ -27,12 +27,24 @@ private:
     sf::IntRect LeftDownCorner;
     sf::IntRect LeftUpCorner;
     sf::IntRect SukienniceLeftBorder;
+    sf::IntRect SukienniceRightBorder;
     sf::IntRect SukienniceLeftArcUp;
     sf::IntRect SukienniceRightArcUp;
     sf::IntRect SukienniceLeftCorner;
+    sf::IntRect SukienniceRightCorner;
     sf::IntRect SukienniceLeftArcDown;
     sf::IntRect SukienniceRightArcDown;
-
+    sf::IntRect FirsFlorLeftWindow;
+    sf::IntRect FirstFlorMidWindow;
+    sf::IntRect FirstFlorMidWindow2;
+    sf::IntRect FirstFlorRightWindow;
+    sf::IntRect FirstFlorOrangeWindow;
+    sf::IntRect FirstFlorLeftBorder;
+    sf::IntRect FirstFlorRightBorder;
+    sf::IntRect FirstFlorLeftWindowBorder;
+    sf::IntRect FirstFlorRightWindowBorder;
+    sf::IntRect LeftPilarBorder;
+    sf::IntRect RughtPilarBorder;
 
 };
 
