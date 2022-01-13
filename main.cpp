@@ -76,6 +76,12 @@ int main() {
 
     //mapa
     Map map;
+    //Sukiennice co mi się nie chce wrzucić na mapę
+    Texture sukiennice_text;
+    sukiennice_text.loadFromFile("../Sukiennice.png");
+    Sprite sukiennice;
+    sukiennice.setTexture(sukiennice_text);
+    sukiennice.setPosition(1240.0f, 1240.0f);
 
     //odswiezanie do animacji
     float delta_time = 0.0f;
@@ -188,6 +194,7 @@ int main() {
                                         window.clear();
                                         window.setView(view);
                                         map.draw(window);
+                                        window.draw(sukiennice);
                                         window.draw(npc2);
                                         for(int i=0; i<enemy_count; i++){
                                             window.draw(enemy.at(i));
