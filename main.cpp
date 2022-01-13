@@ -7,6 +7,7 @@
 #include <vector>
 #include <cstdlib>
 #include <ctime>
+#include <Windows.h>
 #include <SFML/Graphics.hpp>
 #include "Player.h"
 #include "Map.h"
@@ -16,7 +17,6 @@
 #include "NPC.h"
 #include "UI.h"
 #include "Pause.h"
-#include "BattleSystem.h"
 
 
 using namespace sf;
@@ -26,6 +26,7 @@ Vector2u view_size(1000, 1000);
 bool music_play=false;
 void resize_view(const RenderWindow &window, View &view);
 bool collision_detection(int enemy_count, vector<NPC> &enemy, Player &player_test);
+void ucieczka_func(Text ucieczka, Vector2f player_test, Font sysFont, RenderWindow& window);
 
 void drawUI(sf::RenderWindow& window, sf::View playerView, std::vector<UI*>& sysWindows, float elapsedTime);
 bool UI_visible(std::vector<UI*>& sysWindows);
@@ -72,8 +73,6 @@ int main() {
     std::vector<UI*> sysWindows;
 
     Pause* pausePtr = new Pause(sysFont, view_size);
-    BattleSystem* battlePtr = new BattleSystem(sysFont, view_size, titleTexture, sfx_blip1);
-    sysWindows.push_back(battlePtr);
     sysWindows.push_back(pausePtr);
 
     //UI input
@@ -127,34 +126,6 @@ int main() {
     while(window.isOpen()){
         delta_time = clock.restart().asSeconds();
         Event ev{};
-        if (battlePtr->isVisible() && !UI_visible_excluding(battlePtr, sysWindows)) {
-            if (ui_kb[ev.key.code])
-                battlePtr->change_selection(ev.key.code);
-            if (ui_kb[sf::Keyboard::Return]) {
-                switch (battlePtr->getSelection()) {
-                    case(Battle::Fight) :
-                        break;
-                    case(Battle::Items) :
-                        std::cout << "Nie dziala jeszcze" << std::endl;
-                        break;
-                    case(Battle::Status) :
-                        std::cout << "Nie dziala jeszcze" << std::endl;
-                        break;
-                    case(Battle::Escape) :
-                        battlePtr->setVisible(false);
-                        break;
-                }
-            }
-        }
-        if (ui_kb[sf::Keyboard::Escape]) {
-            if (!UI_visible_excluding(pausePtr, sysWindows)) {
-                pausePtr->setVisible(!pausePtr->isVisible());
-                if (pausePtr->isVisible())
-                    music.pause();
-                else
-                    music.play();
-            }
-        }
         while(window.pollEvent(ev)){
             switch (ev.type){
                 case Event::KeyReleased:
@@ -174,8 +145,6 @@ int main() {
                         case Keyboard::S:
                             menu.MoveDown();
                             break;
-                        case Keyboard::M:
-//                            battlePtr->draw()
                         case Keyboard::Return:
                             switch (menu.GetPressedItem()){
                                 case 0: //play
@@ -195,7 +164,8 @@ int main() {
 
                                         if(collision_detection(enemy_count, enemy, player_test)){
                                             Combat_menu combat_menu(window.getSize().x, window.getSize().y, player_test.get_position());
-                                            while (!Keyboard::isKeyPressed(Keyboard::X)) {
+                                            bool ucieczka = false;
+                                            while (!ucieczka && !Keyboard::isKeyPressed(Keyboard::X)) {
                                                 while (window.pollEvent(ev)) {
                                                     switch (ev.type) {
                                                         case Event::Closed:
@@ -222,15 +192,23 @@ int main() {
                                                                     break;
                                                                 case Keyboard::Return:
                                                                     switch (combat_menu.GetPressedItem()) {
-                                                                        case 0:
+                                                                        case 0://walka
                                                                             cout << "Coś" << endl;
                                                                             break;
-                                                                        case 1:
+                                                                        case 1://use item
                                                                             cout << "222" <<endl;
                                                                             break;
-                                                                        case 2:
+                                                                        case 2://stats
                                                                             break;
-                                                                        case 3:
+                                                                        case 3:{//ucieczka
+                                                                            int szansa_na_ucieczke = (rand() %  99) + 1;
+                                                                            if(szansa_na_ucieczke<=5) ucieczka = true;
+                                                                            else{
+                                                                                Text ucieczka;
+                                                                                ucieczka_func(ucieczka, player_test.get_position(), sysFont , window);
+                                                                                combat_menu.ucieczka(player_test.get_position());
+                                                                            }
+                                                                        }
                                                                             break;
                                                                     }
                                                             }
@@ -363,6 +341,17 @@ bool collision_detection(int enemy_count, vector<NPC> &enemy, Player &player_tes
             return true;
         }
     } return false;
+}
+
+void ucieczka_func(Text ucieczka, Vector2f player_test, Font sysFont, RenderWindow& window){
+    ucieczka.setFont(sysFont);
+    ucieczka.setFillColor(sf::Color::Magenta);
+    ucieczka.setCharacterSize(50);
+    ucieczka.setString("Ucieczka nie powiodla sie!");
+    ucieczka.setPosition(player_test.x-300,player_test.y-60);
+    window.draw(ucieczka);
+    window.display();
+    Sleep (2600);
 }
 
 void drawUI(sf::RenderWindow& window, sf::View playerView, std::vector<UI*>& sysWindows, float elapsedTime) {

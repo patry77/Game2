@@ -14,7 +14,11 @@ public:
     void MoveUp();
     void MoveDown();
     int GetPressedItem(){return selectedItemIndex;}
+
+    void ucieczka(sf::Vector2f player_position);
+
 private:
+    int poprawa = 0;
     int selectedItemIndex;
     sf::Font font;
     sf::Text combat_menu[MAX_NUMBER_OF_ITEMS];

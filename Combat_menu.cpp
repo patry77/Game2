@@ -33,6 +33,16 @@ Combat_menu::Combat_menu(float width, float height, sf::Vector2f player_position
 Combat_menu::~Combat_menu()
 {}
 
+void Combat_menu::ucieczka(sf::Vector2f player_position) {
+    combat_menu[3].setPosition(0.0f, 0.0f);
+    combat_menu[0].setPosition(player_position.x-360,player_position.y+240);
+    combat_menu[1].setPosition(player_position.x-60,player_position.y+240);
+    combat_menu[2].setPosition(player_position.x+250,player_position.y+240);
+    combat_menu[0].setFillColor(sf::Color::Red);
+    selectedItemIndex=0;
+    poprawa = 1;
+}
+
 void Combat_menu::draw(sf::RenderWindow &window)
 {
     for(int i = 0; i < MAX_NUMBER_OF_ITEMS; i++)
@@ -53,7 +63,7 @@ void Combat_menu::MoveUp()
 
 void Combat_menu::MoveDown()
 {
-    if(selectedItemIndex + 1 < MAX_NUMBER_OF_ITEMS)
+    if(selectedItemIndex + 1 < (MAX_NUMBER_OF_ITEMS - poprawa))
     {
         combat_menu[selectedItemIndex].setFillColor(sf::Color::White);
         selectedItemIndex++;
