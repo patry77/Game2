@@ -171,8 +171,11 @@ int main() {
                                                                             cout << "222" <<endl;
                                                                             break;
                                                                         case 2:{//stats
-                                                                            Text stats;
-                                                                            stats_func(stats, player_test.get_position(), font , window);
+                                                                            while(!Keyboard::isKeyPressed(Keyboard::Escape)){
+                                                                                Text stats;
+                                                                                stats_func(stats, player_test.get_position(), font , window);
+                                                                                Sleep(10);
+                                                                            }
                                                                         }
                                                                             break;
                                                                         case 3:{//ucieczka
@@ -377,7 +380,6 @@ void stats_func(Text stats, Vector2f player_test, Font font, RenderWindow& windo
     op_damage.setString("Damage : ");
     op_damage.setPosition(player_test.x+100,player_test.y-40);
 
-    while(!Keyboard::isKeyPressed(Keyboard::Escape)){
         window.draw(frame_sprite);
         window.draw(student);
         window.draw(my_health);
@@ -386,5 +388,4 @@ void stats_func(Text stats, Vector2f player_test, Font font, RenderWindow& windo
         window.draw(op_health);
         window.draw(op_damage);
         window.display();
-    }
 }
