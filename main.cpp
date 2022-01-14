@@ -27,7 +27,7 @@ void resize_view(const RenderWindow &window, View &view);
 bool collision_detection(int enemy_count, vector<NPC> &enemy, Player &player_test);
 void ucieczka_func(Text ucieczka, Vector2f player_test, Font font, RenderWindow& window);
 void stats_func(Text stats, Vector2f player_test, Font font, RenderWindow& window, vector <int> states);
-vector <int> fight_func_logic(int quantity_ststs);
+vector <int> fight_func_logic(int quantity_ststs, vector <int> states);
 void fight_func_draw(Vector2f player_test, Font font, RenderWindow& window);
 
 int main() {
@@ -53,6 +53,10 @@ int main() {
     //vector statystyk
     int quantity_ststs=4;
     vector <int> states (quantity_ststs);
+    states.at(0)=100;
+    states.at(1)=10;
+    states.at(2)=100;
+    states.at(3)=20;
 
     //Gracz
     Texture player_texture;
@@ -171,8 +175,32 @@ int main() {
                                                                 case Keyboard::Return:
                                                                     switch (combat_menu.GetPressedItem()) {
                                                                         case 0:{//walka
-                                                                            states = fight_func_logic(quantity_ststs);
+                                                                            states = fight_func_logic(quantity_ststs, states);
                                                                             fight_func_draw(player_test.get_position(), font , window);
+                                                                            if(states.at(0)<=0){
+                                                                                Text end_text;
+                                                                                end_text.setFont(font);
+                                                                                end_text.setFillColor(sf::Color::Red);
+                                                                                end_text.setCharacterSize(60);
+                                                                                end_text.setString("GAME OVER!");
+                                                                                end_text.setPosition(player_test.get_position().x-180,player_test.get_position().y-60);
+                                                                                window.draw(end_text);
+                                                                                window.display();
+                                                                                Sleep (2000);
+                                                                                window.close();
+                                                                            }
+                                                                            if(states.at(2)<=0){
+                                                                                Text win_text;
+                                                                                win_text.setFont(font);
+                                                                                win_text.setFillColor(sf::Color::Yellow);
+                                                                                win_text.setCharacterSize(60);
+                                                                                win_text.setString("VICTORY!");
+                                                                                win_text.setPosition(player_test.get_position().x-180,player_test.get_position().y-60);
+                                                                                window.draw(win_text);
+                                                                                window.display();
+                                                                                Sleep (2000);
+                                                                                ucieczka = true;
+                                                                            }
                                                                         }
                                                                             break;
                                                                         case 1://use item
@@ -404,19 +432,16 @@ void stats_func(Text stats, Vector2f player_test, Font font, RenderWindow& windo
         window.draw(op_damage);
         window.display();
 }
-vector <int> fight_func_logic(int quantity_ststs){
-    vector <int> stats (quantity_ststs);
-    int my_health = 100;
-    int my_damage = 10;
-    int op_health = 200;
-    int op_damage = 20;
-
-    stats.at(0)= my_health;
-    stats.at(1)= my_damage;
-    stats.at(2)= op_health;
-    stats.at(3)= op_damage;
-
-    //logika walki i zmiana parametrow walki:
+vector <int> fight_func_logic(int quantity_ststs, vector <int> states){
+    vector <int> stats {states};
+    //health student
+    stats.at(0)-=20;
+    //damage student
+    stats.at(1)=50;
+    //health oponent
+    stats.at(2)-=50;
+    //damage oponent
+    stats.at(3)=20;
 
     return stats;
 }
