@@ -70,12 +70,20 @@ int main() {
         NPC temp_enemy {&Enemy_texture, pos_x, pos_y};
         enemy.push_back(temp_enemy);
     }
+    //Sprite do walki
+    Texture Enemy_fight_texture;
+    Enemy_fight_texture.loadFromFile("../Student_Zombie_Girl.jpg");
+    Sprite Enemy_fight_1;
+    Enemy_fight_1.setTexture(Enemy_fight_texture);
+
 
     //kamera - widok, zeby dobrze scalowal‚ obiekty przy zmianie rozmiaru okna i kamera przesuwala sie z postacia
     View view(FloatRect (0.0f, 0.0f, view_size.x, view_size.y));
 
     //mapa
     Map map;
+    Map map2;
+
     //Sukiennice co mi się nie chce wrzucić na mapę
     Texture sukiennice_text;
     sukiennice_text.loadFromFile("../Sukiennice.png");
@@ -181,6 +189,9 @@ int main() {
                                                 }
                                                 //window.clear(Color::Red);
                                                 window.clear();
+                                                //Tu dodałem pozycje sprita przeciwnika
+                                                Enemy_fight_1.setPosition(player_test.get_position().x, player_test.get_position().y-400);
+                                                window.draw(Enemy_fight_1);
                                                 combat_menu.draw(window);
                                                 window.display();
                                             }
@@ -193,11 +204,17 @@ int main() {
                                         }
                                         window.clear();
                                         window.setView(view);
-                                        map.draw(window);
-                                        window.draw(sukiennice);
-                                        window.draw(npc2);
-                                        for(int i=0; i<enemy_count; i++){
-                                            window.draw(enemy.at(i));
+                                        if (player_test.get_position().y < 1210)
+                                        {
+                                            map2.draw(window);
+                                        }
+                                        else {
+                                            map.draw(window);
+                                            window.draw(npc2);
+                                            window.draw(sukiennice);
+                                            for (int i = 0; i < enemy_count; i++) {
+                                                window.draw(enemy.at(i));
+                                            }
                                         }
                                         window.draw(player_test);
                                         window.display();
@@ -315,5 +332,5 @@ void ucieczka_func(Text ucieczka, Vector2f player_test, Font font, RenderWindow&
     ucieczka.setPosition(player_test.x-300,player_test.y-60);
     window.draw(ucieczka);
     window.display();
-    Sleep (2600);
+    Sleep (2200);
 }
