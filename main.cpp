@@ -8,6 +8,7 @@
 #include <cstdlib>
 #include <ctime>
 #include <Windows.h>
+#include <limits>
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 #include "Player.h"
@@ -25,7 +26,8 @@ bool music_play=false;
 void resize_view(const RenderWindow &window, View &view);
 bool collision_detection(int enemy_count, vector<NPC> &enemy, Player &player_test);
 void ucieczka_func(Text ucieczka, Vector2f player_test, Font font, RenderWindow& window);
-void stats_func(Text stats, Vector2f player_test, Font font, RenderWindow& window);
+void stats_func(Text stats, Vector2f player_test, Font font, RenderWindow& window, vector <int> states);
+vector <int> fight_func(Vector2f player_test, Font font, RenderWindow& window, int quantity_ststs);
 
 int main() {
     //Muzyka
@@ -47,6 +49,9 @@ int main() {
     Menu menu(window.getSize().x, window.getSize().y);
     Settings_menu settings_menu(window.getSize().x, window.getSize().y);
 
+    //vector statystyk
+    int quantity_ststs=4;
+    vector <int> states (quantity_ststs);
 
     //Gracz
     Texture player_texture;
@@ -164,8 +169,9 @@ int main() {
                                                                     break;
                                                                 case Keyboard::Return:
                                                                     switch (combat_menu.GetPressedItem()) {
-                                                                        case 0://walka
-                                                                            cout << "Coś" << endl;
+                                                                        case 0:{//walka
+                                                                            states = fight_func(player_test.get_position(), font , window, quantity_ststs);
+                                                                        }
                                                                             break;
                                                                         case 1://use item
                                                                             cout << "222" <<endl;
@@ -173,8 +179,9 @@ int main() {
                                                                         case 2:{//stats
                                                                             while(!Keyboard::isKeyPressed(Keyboard::Escape)){
                                                                                 Text stats;
-                                                                                stats_func(stats, player_test.get_position(), font , window);
-                                                                                Sleep(10);
+                                                                                stats_func(stats, player_test.get_position(), font , window, states);
+//                                                                                cin.clear();
+//                                                                                cin.ignore(std::numeric_limits<streamsize>::max(), '\n');
                                                                             }
                                                                         }
                                                                             break;
@@ -332,7 +339,7 @@ void ucieczka_func(Text ucieczka, Vector2f player_test, Font font, RenderWindow&
     Sleep (2600);
 }
 
-void stats_func(Text stats, Vector2f player_test, Font font, RenderWindow& window){
+void stats_func(Text stats, Vector2f player_test, Font font, RenderWindow& window, vector <int> states){
     Texture frame;
     frame.loadFromFile("../frame.jpg");
     frame.setSmooth(true);
@@ -340,6 +347,9 @@ void stats_func(Text stats, Vector2f player_test, Font font, RenderWindow& windo
     Sprite frame_sprite;
     frame_sprite.setTexture(frame);
     frame_sprite.setPosition(player_test.x-400,player_test.y-300);
+
+    int student_int, my_health_int, my_damage_int;
+    int oponent_int, op_health_int, op_damage_int;
 
     Text student, my_health, my_damage;
     Text oponent, op_health, op_damage;
@@ -388,4 +398,24 @@ void stats_func(Text stats, Vector2f player_test, Font font, RenderWindow& windo
         window.draw(op_health);
         window.draw(op_damage);
         window.display();
+}
+vector <int> fight_func(Vector2f player_test, Font font, RenderWindow& window, int quantity_ststs){
+    vector <int> stats (quantity_ststs);
+    int my_health = 100;
+    int my_damage = 10;
+    int op_health = 200;
+    int op_damage = 20;
+
+    for(size_t i = 0; i<stats.size(); i++ ){
+        stats.push_back(my_health);
+        stats.push_back(my_damage);
+        stats.push_back(op_health);
+        stats.push_back(op_damage);
+    }
+
+    //logika walki i zmiana parametrow walki:
+
+
+
+    return stats;
 }
