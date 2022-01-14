@@ -25,6 +25,7 @@ bool music_play=false;
 void resize_view(const RenderWindow &window, View &view);
 bool collision_detection(int enemy_count, vector<NPC> &enemy, Player &player_test);
 void ucieczka_func(Text ucieczka, Vector2f player_test, Font font, RenderWindow& window);
+void stats_func(Text stats, Vector2f player_test, Font font, RenderWindow& window);
 
 int main() {
     //Muzyka
@@ -70,20 +71,12 @@ int main() {
         NPC temp_enemy {&Enemy_texture, pos_x, pos_y};
         enemy.push_back(temp_enemy);
     }
-    //Sprite do walki
-    Texture Enemy_fight_texture;
-    Enemy_fight_texture.loadFromFile("../Student_Zombie_Girl.jpg");
-    Sprite Enemy_fight_1;
-    Enemy_fight_1.setTexture(Enemy_fight_texture);
-
 
     //kamera - widok, zeby dobrze scalowal‚ obiekty przy zmianie rozmiaru okna i kamera przesuwala sie z postacia
     View view(FloatRect (0.0f, 0.0f, view_size.x, view_size.y));
 
     //mapa
     Map map;
-    Map map2;
-
     //Sukiennice co mi się nie chce wrzucić na mapę
     Texture sukiennice_text;
     sukiennice_text.loadFromFile("../Sukiennice.png");
@@ -138,6 +131,13 @@ int main() {
                                             Combat_menu combat_menu(window.getSize().x, window.getSize().y, player_test.get_position());
                                             bool ucieczka = false;
                                             while (!ucieczka && !Keyboard::isKeyPressed(Keyboard::X)) {
+                                                Texture arena;
+                                                arena.loadFromFile("../arena.png");
+                                                Sprite arena_sprite;
+                                                arena_sprite.setTexture(arena);
+                                                arena_sprite.setPosition(player_test.get_position().x,player_test.get_position().y);
+                                                arena_sprite.setOrigin(1920/2,1080/2);
+
                                                 while (window.pollEvent(ev)) {
                                                     switch (ev.type) {
                                                         case Event::Closed:
@@ -170,7 +170,10 @@ int main() {
                                                                         case 1://use item
                                                                             cout << "222" <<endl;
                                                                             break;
-                                                                        case 2://stats
+                                                                        case 2:{//stats
+                                                                            Text stats;
+                                                                            stats_func(stats, player_test.get_position(), font , window);
+                                                                        }
                                                                             break;
                                                                         case 3:{//ucieczka
                                                                             int szansa_na_ucieczke = (rand() %  99) + 1;
@@ -187,11 +190,8 @@ int main() {
                                                     }
 
                                                 }
-                                                //window.clear(Color::Red);
                                                 window.clear();
-                                                //Tu dodałem pozycje sprita przeciwnika
-                                                Enemy_fight_1.setPosition(player_test.get_position().x, player_test.get_position().y-400);
-                                                window.draw(Enemy_fight_1);
+                                                window.draw(arena_sprite);
                                                 combat_menu.draw(window);
                                                 window.display();
                                             }
@@ -204,17 +204,11 @@ int main() {
                                         }
                                         window.clear();
                                         window.setView(view);
-                                        if (player_test.get_position().y < 1210)
-                                        {
-                                            map2.draw(window);
-                                        }
-                                        else {
-                                            map.draw(window);
-                                            window.draw(npc2);
-                                            window.draw(sukiennice);
-                                            for (int i = 0; i < enemy_count; i++) {
-                                                window.draw(enemy.at(i));
-                                            }
+                                        map.draw(window);
+                                        window.draw(sukiennice);
+                                        window.draw(npc2);
+                                        for(int i=0; i<enemy_count; i++){
+                                            window.draw(enemy.at(i));
                                         }
                                         window.draw(player_test);
                                         window.display();
@@ -332,5 +326,65 @@ void ucieczka_func(Text ucieczka, Vector2f player_test, Font font, RenderWindow&
     ucieczka.setPosition(player_test.x-300,player_test.y-60);
     window.draw(ucieczka);
     window.display();
-    Sleep (2200);
+    Sleep (2600);
+}
+
+void stats_func(Text stats, Vector2f player_test, Font font, RenderWindow& window){
+    Texture frame;
+    frame.loadFromFile("../frame.jpg");
+    frame.setSmooth(true);
+
+    Sprite frame_sprite;
+    frame_sprite.setTexture(frame);
+    frame_sprite.setPosition(player_test.x-400,player_test.y-300);
+
+    Text student, my_health, my_damage;
+    Text oponent, op_health, op_damage;
+
+    student.setFont(font);
+    student.setFillColor(sf::Color::Yellow);
+    student.setCharacterSize(30);
+    student.setString("STUDENT");
+    student.setPosition(player_test.x-310,player_test.y-200);
+
+    my_health.setFont(font);
+    my_health.setFillColor(sf::Color::Red);
+    my_health.setCharacterSize(30);
+    my_health.setString("Health : ");
+    my_health.setPosition(player_test.x-310,player_test.y-120);
+
+    my_damage.setFont(font);
+    my_damage.setFillColor(sf::Color::Red);
+    my_damage.setCharacterSize(30);
+    my_damage.setString("Damage : ");
+    my_damage.setPosition(player_test.x-310,player_test.y-40);
+
+    oponent.setFont(font);
+    oponent.setFillColor(sf::Color::Yellow);
+    oponent.setCharacterSize(30);
+    oponent.setString("OPONENT");
+    oponent.setPosition(player_test.x+100,player_test.y-200);
+
+    op_health.setFont(font);
+    op_health.setFillColor(sf::Color::Red);
+    op_health.setCharacterSize(30);
+    op_health.setString("Health : ");
+    op_health.setPosition(player_test.x+100,player_test.y-120);
+
+    op_damage.setFont(font);
+    op_damage.setFillColor(sf::Color::Red);
+    op_damage.setCharacterSize(30);
+    op_damage.setString("Damage : ");
+    op_damage.setPosition(player_test.x+100,player_test.y-40);
+
+    while(!Keyboard::isKeyPressed(Keyboard::Escape)){
+        window.draw(frame_sprite);
+        window.draw(student);
+        window.draw(my_health);
+        window.draw(my_damage);
+        window.draw(oponent);
+        window.draw(op_health);
+        window.draw(op_damage);
+        window.display();
+    }
 }
