@@ -409,11 +409,10 @@ vector <int> fight_func_logic(int quantity_ststs){
     int op_health = 200;
     int op_damage = 20;
 
-        stats.push_back(my_health);
-        stats.push_back(my_damage);
-        stats.push_back(op_health);
-        stats.push_back(op_damage);
-
+    stats.at(0)= my_health;
+    stats.at(1)= my_damage;
+    stats.at(2)= op_health;
+    stats.at(3)= op_damage;
 
     //logika walki i zmiana parametrow walki:
 
