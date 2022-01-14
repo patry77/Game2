@@ -27,7 +27,7 @@ void resize_view(const RenderWindow &window, View &view);
 bool collision_detection(int enemy_count, vector<NPC> &enemy, Player &player_test);
 void ucieczka_func(Text ucieczka, Vector2f player_test, Font font, RenderWindow& window);
 void stats_func(Text stats, Vector2f player_test, Font font, RenderWindow& window, vector <int> states);
-vector <int> fight_func(Vector2f player_test, Font font, RenderWindow& window, int quantity_ststs);
+vector <int> fight_func_logic(int quantity_ststs);
 
 int main() {
     //Muzyka
@@ -170,7 +170,7 @@ int main() {
                                                                 case Keyboard::Return:
                                                                     switch (combat_menu.GetPressedItem()) {
                                                                         case 0:{//walka
-                                                                            states = fight_func(player_test.get_position(), font , window, quantity_ststs);
+                                                                            states = fight_func_logic(quantity_ststs);
                                                                         }
                                                                             break;
                                                                         case 1://use item
@@ -180,8 +180,6 @@ int main() {
                                                                             while(!Keyboard::isKeyPressed(Keyboard::Escape)){
                                                                                 Text stats;
                                                                                 stats_func(stats, player_test.get_position(), font , window, states);
-//                                                                                cin.clear();
-//                                                                                cin.ignore(std::numeric_limits<streamsize>::max(), '\n');
                                                                             }
                                                                         }
                                                                             break;
@@ -348,8 +346,13 @@ void stats_func(Text stats, Vector2f player_test, Font font, RenderWindow& windo
     frame_sprite.setTexture(frame);
     frame_sprite.setPosition(player_test.x-400,player_test.y-300);
 
-    int student_int, my_health_int, my_damage_int;
-    int oponent_int, op_health_int, op_damage_int;
+    String my_health_str, my_damage_str;
+    String op_health_str, op_damage_str;
+
+    my_health_str = to_string(states.at(0));
+    my_damage_str = to_string(states.at(1));
+    op_health_str = to_string(states.at(2));
+    op_damage_str = to_string(states.at(3));
 
     Text student, my_health, my_damage;
     Text oponent, op_health, op_damage;
@@ -363,13 +366,13 @@ void stats_func(Text stats, Vector2f player_test, Font font, RenderWindow& windo
     my_health.setFont(font);
     my_health.setFillColor(sf::Color::Red);
     my_health.setCharacterSize(30);
-    my_health.setString("Health : ");
+    my_health.setString("Health : "+ my_health_str);
     my_health.setPosition(player_test.x-310,player_test.y-120);
 
     my_damage.setFont(font);
     my_damage.setFillColor(sf::Color::Red);
     my_damage.setCharacterSize(30);
-    my_damage.setString("Damage : ");
+    my_damage.setString("Damage : "+ my_damage_str);
     my_damage.setPosition(player_test.x-310,player_test.y-40);
 
     oponent.setFont(font);
@@ -381,13 +384,13 @@ void stats_func(Text stats, Vector2f player_test, Font font, RenderWindow& windo
     op_health.setFont(font);
     op_health.setFillColor(sf::Color::Red);
     op_health.setCharacterSize(30);
-    op_health.setString("Health : ");
+    op_health.setString("Health : "+ op_health_str);
     op_health.setPosition(player_test.x+100,player_test.y-120);
 
     op_damage.setFont(font);
     op_damage.setFillColor(sf::Color::Red);
     op_damage.setCharacterSize(30);
-    op_damage.setString("Damage : ");
+    op_damage.setString("Damage : "+ op_damage_str);
     op_damage.setPosition(player_test.x+100,player_test.y-40);
 
         window.draw(frame_sprite);
@@ -399,23 +402,20 @@ void stats_func(Text stats, Vector2f player_test, Font font, RenderWindow& windo
         window.draw(op_damage);
         window.display();
 }
-vector <int> fight_func(Vector2f player_test, Font font, RenderWindow& window, int quantity_ststs){
+vector <int> fight_func_logic(int quantity_ststs){
     vector <int> stats (quantity_ststs);
     int my_health = 100;
     int my_damage = 10;
     int op_health = 200;
     int op_damage = 20;
 
-    for(size_t i = 0; i<stats.size(); i++ ){
         stats.push_back(my_health);
         stats.push_back(my_damage);
         stats.push_back(op_health);
         stats.push_back(op_damage);
-    }
+
 
     //logika walki i zmiana parametrow walki:
-
-
 
     return stats;
 }
