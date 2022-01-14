@@ -28,6 +28,7 @@ bool collision_detection(int enemy_count, vector<NPC> &enemy, Player &player_tes
 void ucieczka_func(Text ucieczka, Vector2f player_test, Font font, RenderWindow& window);
 void stats_func(Text stats, Vector2f player_test, Font font, RenderWindow& window, vector <int> states);
 vector <int> fight_func_logic(int quantity_ststs);
+void fight_func_draw(Vector2f player_test, Font font, RenderWindow& window);
 
 int main() {
     //Muzyka
@@ -171,6 +172,7 @@ int main() {
                                                                     switch (combat_menu.GetPressedItem()) {
                                                                         case 0:{//walka
                                                                             states = fight_func_logic(quantity_ststs);
+                                                                            fight_func_draw(player_test.get_position(), font , window);
                                                                         }
                                                                             break;
                                                                         case 1://use item
@@ -417,4 +419,8 @@ vector <int> fight_func_logic(int quantity_ststs){
     //logika walki i zmiana parametrow walki:
 
     return stats;
+}
+
+void fight_func_draw(Vector2f player_test, Font font, RenderWindow& window){
+
 }
