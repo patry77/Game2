@@ -1,7 +1,7 @@
 #include "Map.h"
 
 Map::Map() : tileHeight(64), tileWidth(64) {
-    tileSheet.loadFromFile("../background.png");
+    tileSheet.loadFromFile("../Grafika/Background.png");
     tile.setTexture(tileSheet);
     initIntRect();
 }
@@ -170,35 +170,35 @@ void Map::draw(sf::RenderWindow &window) {
                     placeHolder = LeftUpCorner;
                     break;
                 case 8:
-                    placeHolder = SukienniceLeftBorder;
+                    placeHolder = KantLewy;
                     break;
                 case 9:
-                    placeHolder = SukienniceRightBorder;
+                    placeHolder = Top;
                     break;
                 case 10:
-                    placeHolder = SukienniceLeftArcUp;
+                    placeHolder = KantPrawy;
                     break;
                 case 11:
-                    placeHolder = SukienniceRightArcUp;
+                    placeHolder = LeftWallUP;
                     break;
                 case 12:
-                    placeHolder = SukienniceLeftCorner;
+                    placeHolder = MidWallUP;
                     break;
                 case 13:
-                    placeHolder = SukienniceRightCorner;
+                    placeHolder = RightWallUP;
                     break;
-                case 14:
-                    placeHolder = SukienniceLeftArcDown;
-                    break;
-                case 15:
-                    placeHolder = SukienniceRightArcDown;
-                    break;
-                case 16:
-                    placeHolder = FirsFlorLeftWindow;
-                    break;
-                case 17:
-                    placeHolder = FirstFlorRightWindow;
-                    break;
+//                case 14:
+//                    placeHolder = SukienniceLeftArcDown;
+//                    break;
+//                case 15:
+//                    placeHolder = SukienniceRightArcDown;
+//                    break;
+//                case 16:
+//                    placeHolder = FirsFlorLeftWindow;
+//                    break;
+//                case 17:
+//                    placeHolder = FirstFlorRightWindow;
+//                    break;
                 case 18:
                     break;
                 case 19:
@@ -280,41 +280,41 @@ void Map::initIntRect() {
     LeftUpCorner.width = tileWidth;
     LeftUpCorner.height = tileHeight;
 
-    SukienniceLeftBorder.left = 0;
-    SukienniceLeftBorder.top = 320;
-    SukienniceLeftBorder.width = tileWidth;
-    SukienniceLeftBorder.height = tileHeight;
+    KantLewy.left = 0;
+    KantLewy.top = 320;
+    KantLewy.width = tileWidth;
+    KantLewy.height = tileHeight;
 
-    SukienniceLeftArcUp.left = 64;
-    SukienniceLeftArcUp.top = 320;
-    SukienniceLeftArcUp.width = tileWidth;
-    SukienniceLeftArcUp.height = tileHeight;
+    Top.left = 64;
+    Top.top = 320;
+    Top.width = tileWidth;
+    Top.height = tileHeight;
 
-    SukienniceRightArcUp.left = 128;
-    SukienniceRightArcUp.top = 320;
-    SukienniceRightArcUp.width = tileWidth;
-    SukienniceRightArcUp.height = tileHeight;
+    KantPrawy.left = 128;
+    KantPrawy.top = 320;
+    KantPrawy.width = tileWidth;
+    KantPrawy.height = tileHeight;
 
-    SukienniceRightBorder.left = 192;
-    SukienniceRightBorder.top = 320;
-    SukienniceRightBorder.width = tileWidth;
-    SukienniceRightBorder.height = tileHeight;
+//    SukienniceRightBorder.left = 192;
+//    SukienniceRightBorder.top = 320;
+//    SukienniceRightBorder.width = tileWidth;
+//    SukienniceRightBorder.height = tileHeight;
 
-    SukienniceLeftCorner.left = 0;
-    SukienniceLeftCorner.top = 384;
-    SukienniceLeftCorner.width = tileWidth;
-    SukienniceLeftCorner.height = tileHeight;
+    LeftWallUP.left = 0;
+    LeftWallUP.top = 384;
+    LeftWallUP.width = tileWidth;
+    LeftWallUP.height = tileHeight;
 
-    SukienniceLeftArcDown.left = 64;
-    SukienniceLeftArcDown.top = 384;
-    SukienniceLeftArcDown.width = tileWidth;
-    SukienniceLeftArcDown.height = tileHeight;
+    MidWallUP.left = 64;
+    MidWallUP.top = 384;
+    MidWallUP.width = tileWidth;
+    MidWallUP.height = tileHeight;
 
-    SukienniceRightArcDown.left = 128;
-    SukienniceRightArcDown.top = 384;
-    SukienniceRightArcDown.width = tileWidth;
-    SukienniceRightArcDown.height = tileHeight;
-
+    RightWallUP.left = 128;
+    RightWallUP.top = 384;
+    RightWallUP.width = tileWidth;
+    RightWallUP.height = tileHeight;
+/*
     SukienniceRightCorner.left = 192;
     SukienniceRightCorner.top = 384;
     SukienniceRightCorner.width = tileWidth;
@@ -343,5 +343,5 @@ void Map::initIntRect() {
     FirstFlorOrangeWindow.left = 0;
     FirstFlorOrangeWindow.top = 192;
     FirstFlorOrangeWindow.width = tileWidth;
-    FirstFlorOrangeWindow.height = tileHeight;
+    FirstFlorOrangeWindow.height = tileHeight;*/
 }
