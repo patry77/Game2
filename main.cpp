@@ -61,17 +61,17 @@ int main() {
 
     //Gracz
     Texture player_texture;
-    player_texture.loadFromFile("../body_move.png");
+    player_texture.loadFromFile("../Grafika/body_move.png");
     Player player_test(&player_texture, Vector2u(4,4), 0.3f);
 
     //NPC
     Texture NPC_texture;
-    NPC_texture.loadFromFile("../body_move.png");
+    NPC_texture.loadFromFile("../Grafika/body_move.png");
     NPC npc2(&NPC_texture,2800.0f,2800.0f);
 
     //Enemies
     Texture Enemy_texture;
-    Enemy_texture.loadFromFile("../npc1.png");
+    Enemy_texture.loadFromFile("../Grafika/npc1.png");
     int enemy_count = 100;
     vector<NPC> enemy;
     srand( time( NULL ) );
@@ -90,10 +90,28 @@ int main() {
     Map map;
     //Sukiennice co mi się nie chce wrzucić na mapę
     Texture sukiennice_text;
-    sukiennice_text.loadFromFile("../Sukiennice.png");
+    sukiennice_text.loadFromFile("../Grafika/Sukiennice.png");
     Sprite sukiennice;
     sukiennice.setTexture(sukiennice_text);
     sukiennice.setPosition(64*20, 64*20);
+    //Za małe sprity od Łukasza
+    Texture Uczelnia_texture;
+    Uczelnia_texture.loadFromFile("../Grafika/Test.png");
+    Sprite Uczelnia_1;
+    Uczelnia_1.setTexture(Uczelnia_texture);
+    Uczelnia_1.setPosition(64*55,64*7);
+
+    Texture Uczelnia_texture_2;
+    Uczelnia_texture_2.loadFromFile("../Grafika/Uczelnia_2.png");
+    Sprite Uczelnia_2;
+    Uczelnia_2.setTexture(Uczelnia_texture_2);
+    Uczelnia_2.setPosition(64*60, 64*40);
+
+    Texture Uczelnia_texture_3;
+    Uczelnia_texture_3.loadFromFile("../Grafika/Uczelnia_3.png");
+    Sprite Uczelnia_3;
+    Uczelnia_3.setTexture(Uczelnia_texture_3);
+    Uczelnia_3.setPosition(64*20, 64*40);
 
     //granice
     std::vector<RectangleShape> Walls;
@@ -160,7 +178,7 @@ int main() {
 
                                                 //tlo podczas walki
                                                 Texture arena;
-                                                arena.loadFromFile("../arena.png");
+                                                arena.loadFromFile("../Grafika/arena.png");
                                                 Sprite arena_sprite;
                                                 arena_sprite.setTexture(arena);
                                                 arena_sprite.setPosition(player_test.get_position().x,player_test.get_position().y);
@@ -271,12 +289,15 @@ int main() {
                                         window.clear();
                                         window.setView(view);
                                         map.draw(window);
-                                        window.draw(sukiennice);
                                         window.draw(npc2);
                                         for(int i=0; i<enemy_count; i++){
                                             window.draw(enemy.at(i));
                                         }
                                         window.draw(player_test);
+                                        window.draw(sukiennice);
+                                        window.draw(Uczelnia_1);
+                                        window.draw(Uczelnia_2);
+                                        window.draw(Uczelnia_3);
                                         //rysowanie collision boxów
                                         for (auto &i : Walls)
                                         {
@@ -441,7 +462,7 @@ void ucieczka_func(Text ucieczka, Vector2f player_test, Font font, RenderWindow&
 
 void stats_func(Text stats, Vector2f player_test, Font font, RenderWindow& window, vector <int> states){
     Texture frame;
-    frame.loadFromFile("../frame.jpg");
+    frame.loadFromFile("../Grafika/frame.jpg");
     frame.setSmooth(true);
 
     Sprite frame_sprite;
