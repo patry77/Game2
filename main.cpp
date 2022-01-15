@@ -141,12 +141,20 @@ int main() {
                                             Combat_menu combat_menu(window.getSize().x, window.getSize().y, player_test.get_position());
                                             bool ucieczka = false;
                                             while (!ucieczka && !Keyboard::isKeyPressed(Keyboard::X)) {
+
+                                                //tlo podczas walki
                                                 Texture arena;
                                                 arena.loadFromFile("../arena.png");
                                                 Sprite arena_sprite;
                                                 arena_sprite.setTexture(arena);
                                                 arena_sprite.setPosition(player_test.get_position().x,player_test.get_position().y);
                                                 arena_sprite.setOrigin(1920/2,1080/2);
+
+                                                //sprite walki:
+
+                                                //update bedzie po nacisnieciu przyciku fight, dodac sprite do funkcji na dole maina
+
+
 
                                                 while (window.pollEvent(ev)) {
                                                     switch (ev.type) {
