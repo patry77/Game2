@@ -224,6 +224,9 @@ int main() {
                                                                                 window.display();
                                                                                 Sleep (2000);
                                                                                 ucieczka = true;
+                                                                                //reset stats
+                                                                                states.at(0) = 100;
+                                                                                states.at(2) = 100;
                                                                             }
                                                                         }
                                                                             break;
