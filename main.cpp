@@ -56,7 +56,7 @@ int main() {
     vector <int> states (quantity_ststs);
     vector <int> stats_after_item (quantity_ststs);
     states.at(0)=100;
-    states.at(1)=10;
+    states.at(1)=20;
     states.at(2)=100;
     states.at(3)=20;
 
@@ -234,7 +234,9 @@ int main() {
                                                                                 ucieczka = true;
                                                                                 //reset stats
                                                                                 states.at(0) = 100;
+                                                                                states.at(1) = 20;
                                                                                 states.at(2) = 100;
+                                                                                states.at(3) = 20;
                                                                             }
                                                                         }
                                                                             break;
@@ -522,7 +524,7 @@ vector <int> fight_func_logic(int quantity_ststs, vector <int> states, vector <i
     int sword = stats_after_item.at(1);
 
     //health student
-    stats.at(0)-=op_damage+shield;
+    stats.at(0)=(stats.at(0)-op_damage)+shield;
     //damage student
     stats.at(1)=my_damage+sword;
     //health oponent
