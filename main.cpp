@@ -25,7 +25,7 @@ Vector2u view_size(1000, 1000);
 bool music_play=false;
 void resize_view(const RenderWindow &window, View &view);
 bool collision_detection(int enemy_count, vector<NPC> &enemy, Player &player_test);
-void object_collision(Player &player_test, vector<RectangleShape> &Walls, FloatRect nextPos);
+void object_collision(Player &player_test, vector<RectangleShape> &Walls, Texture object);
 void ucieczka_func(Text ucieczka, Vector2f player_test, Font font, RenderWindow& window);
 void stats_func(Text stats, Vector2f player_test, Font font, RenderWindow& window, vector <int> states);
 vector <int> fight_func_logic(int quantity_ststs, vector <int> states);
@@ -99,9 +99,11 @@ int main() {
     std::vector<RectangleShape> Walls;
 
     RectangleShape wall;
-    wall.setFillColor(Color::Red /*Transparent*/);
+    wall.setFillColor(Color::Transparent);
     wall.setSize(Vector2f(sukiennice_text.getSize().x,sukiennice_text.getSize().y));
-    wall.setPosition(64*20, 64*19);
+    wall.setOrigin(wall.getSize().x/2, wall.getSize().y/2);
+    wall.setPosition(64*20+(sukiennice_text.getSize().x/2), 64*20+(sukiennice_text.getSize().y/2));
+
 
     Walls.push_back(wall);
 
@@ -267,7 +269,7 @@ int main() {
                                             music.play();
                                             music_play=true;
                                         }
-                                        //object_collision(player_test, Walls, nextPos);
+                                        object_collision(player_test, Walls, sukiennice_text);
                                         //rysowanie gracza, mapy i innych przydatnych rzeczy
                                         window.clear();
                                         window.setView(view);
@@ -368,7 +370,6 @@ int main() {
                     break;
             }
         }
-        object_collision(player_test, Walls, nextPos);
         window.clear();
         menu.draw(window);
         window.display();
@@ -393,20 +394,39 @@ bool collision_detection(int enemy_count, vector<NPC> &enemy, Player &player_tes
     } return false;
 }
 
-void object_collision(Player &player_test, vector<RectangleShape> &Walls, FloatRect nextPos){
-    for(auto &wall : Walls)
-    {
-        FloatRect playerBounds = player_test.get_body().getGlobalBounds();
-        FloatRect wallBounds = wall.getGlobalBounds();
-        nextPos= playerBounds;
-        nextPos.left += 600.0f;//+walk speed ręcznie bo jest prywatny
-        nextPos.top += 600.0f;
+void object_collision(Player &player_test, vector<RectangleShape> &Walls, Texture sukiennice_text){
+//    for(auto &wall : Walls)
+//    {
+//        FloatRect playerBounds = player_test.get_body().getGlobalBounds();
+//        FloatRect wallBounds = wall.getGlobalBounds();
+//        nextPos = playerBounds;
+//        nextPos.left += 600.0f;//+walk speed ręcznie bo jest prywatny
+//        nextPos.top += 600.0f;
+//
+//        if (wallBounds.intersects(nextPos))
+//        {
+//            std::cout << "Collision" << endl;
+//        }
+//    }
 
-        if (wallBounds.intersects(nextPos))
-        {
-            std::cout << "Collision" << endl;
-        }
-    }
+//    for(auto &wall : Walls) {
+//        if (player_test.get_position().x <= (wall.getPosition().x+sukiennice_text.getSize().x/2) && player_test.get_position().x >= (wall.getPosition().x-sukiennice_text.getSize().x/2)
+//           && player_test.get_position().y <= (wall.getPosition().y+sukiennice_text.getSize().y/2) && player_test.get_position().y >= (wall.getPosition().y-sukiennice_text.getSize().y/2))
+//        {
+//            //kolizja lewo
+//            if(player_test.get_position().x < wall.getPosition().x+sukiennice_text.getSize().x/2)
+//                player_test.set_position(wall.getPosition().x+sukiennice_text.getSize().x/2, player_test.get_position().y);
+//            //kolizja gora
+//            if(player_test.get_position().y < wall.getPosition().y+sukiennice_text.getSize().y/2)
+//                player_test.set_position(player_test.get_body().getPosition().x, wall.getPosition().y+sukiennice_text.getSize().y/2);
+//            //kolizja prawo
+//            if(player_test.get_position().x + player_test.get_body().getGlobalBounds().width > (sukiennice_text.getSize().x))
+//                player_test.set_position((sukiennice_text.getSize().x)-player_test.get_body().getGlobalBounds().width, player_test.get_position().y);
+//            //kolizja dol
+//            if(player_test.get_position().y + player_test.get_body().getGlobalBounds().height > (sukiennice_text.getSize().x))
+//                player_test.set_position(player_test.get_body().getPosition().x, (sukiennice_text.getSize().x)-player_test.get_body().getGlobalBounds().height);
+//        }
+//    }
 
 }
 
