@@ -245,7 +245,7 @@ int main() {
                                                                                 return 0;
                                                                             }
                                                                             if(states.at(2)<=0){
-                                                                                fight_ongoing =false;
+                                                                                fight_ongoing = false;
                                                                                 Text win_text;
                                                                                 win_text.setFont(font);
                                                                                 win_text.setFillColor(sf::Color::Yellow);
@@ -578,10 +578,4 @@ vector <int> use_item_func(int quantity_ststs){
     stats_after_item.at(1) = sword;
 
     return stats_after_item;
-}
-
-void fight_func_draw(Vector2f player_test, Font font, RenderWindow& window){
-
-
-
 }
