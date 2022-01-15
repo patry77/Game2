@@ -17,6 +17,7 @@ public:
     void collided();
     void update(float delta_time);
     RectangleShape get_body() const { return body;}
+    void set_walkspeed(float speed) { walk_speed = speed;}
 
 
 private:
