@@ -25,6 +25,7 @@ Vector2u view_size(1000, 1000);
 bool music_play=false;
 void resize_view(const RenderWindow &window, View &view);
 bool collision_detection(int enemy_count, vector<NPC> &enemy, Player &player_test);
+void object_collision(Player &player_test, vector<RectangleShape> &Walls, FloatRect nextPos);
 void ucieczka_func(Text ucieczka, Vector2f player_test, Font font, RenderWindow& window);
 void stats_func(Text stats, Vector2f player_test, Font font, RenderWindow& window, vector <int> states);
 vector <int> fight_func_logic(int quantity_ststs, vector <int> states);
@@ -92,7 +93,20 @@ int main() {
     sukiennice_text.loadFromFile("../Sukiennice.png");
     Sprite sukiennice;
     sukiennice.setTexture(sukiennice_text);
-    sukiennice.setPosition(1240.0f, 1240.0f);
+    sukiennice.setPosition(64*20, 64*20);
+
+    //granice
+    std::vector<RectangleShape> Walls;
+
+    RectangleShape wall;
+    wall.setFillColor(Color::Red /*Transparent*/);
+    wall.setSize(Vector2f(sukiennice_text.getSize().x,sukiennice_text.getSize().y));
+    wall.setPosition(64*20, 64*19);
+
+    Walls.push_back(wall);
+
+    //Kolizje
+    FloatRect nextPos;
 
     //odswiezanie do animacji
     float delta_time = 0.0f;
@@ -128,7 +142,7 @@ int main() {
                                             switch (ev.type) {
                                                 case Event::Closed:
                                                     window.close();
-                                                    break;
+                                                    return 0;
 
                                                 case Event::Resized:
                                                     resize_view(window, view);
@@ -160,7 +174,7 @@ int main() {
                                                     switch (ev.type) {
                                                         case Event::Closed:
                                                             window.close();
-                                                            break;
+                                                            return 0;
 
                                                         case Event::Resized:
                                                             resize_view(window, view);
@@ -194,8 +208,10 @@ int main() {
                                                                                 end_text.setPosition(player_test.get_position().x-180,player_test.get_position().y-60);
                                                                                 window.draw(end_text);
                                                                                 window.display();
+                                                                                music.stop();
                                                                                 Sleep (2000);
                                                                                 window.close();
+                                                                                return 0;
                                                                             }
                                                                             if(states.at(2)<=0){
                                                                                 Text win_text;
@@ -248,6 +264,8 @@ int main() {
                                             music.play();
                                             music_play=true;
                                         }
+                                        //object_collision(player_test, Walls, nextPos);
+                                        //rysowanie gracza, mapy i innych przydatnych rzeczy
                                         window.clear();
                                         window.setView(view);
                                         map.draw(window);
@@ -257,8 +275,15 @@ int main() {
                                             window.draw(enemy.at(i));
                                         }
                                         window.draw(player_test);
+                                        //rysowanie collision boxów
+                                        for (auto &i : Walls)
+                                        {
+                                            window.draw(i);
+                                        }
+
                                         window.display();
                                     }
+
                                     view.setCenter(540.0f, 540.0f);
                                     window.setView(view);
                                     break;
@@ -270,7 +295,7 @@ int main() {
                                             switch (ev.type) {
                                                 case Event::Closed:
                                                     window.close();
-                                                    break;
+                                                    return 0;
 
                                                 case Event::Resized:
                                                     resize_view(window, view);
@@ -333,13 +358,14 @@ int main() {
 
                 case Event::Closed:
                     window.close();
-                    break;
+                    return 0;
 
                 case Event::Resized:
                     resize_view(window, view);
                     break;
             }
         }
+        object_collision(player_test, Walls, nextPos);
         window.clear();
         menu.draw(window);
         window.display();
@@ -364,12 +390,30 @@ bool collision_detection(int enemy_count, vector<NPC> &enemy, Player &player_tes
     } return false;
 }
 
+void object_collision(Player &player_test, vector<RectangleShape> &Walls, FloatRect nextPos){
+    for(auto &wall : Walls)
+    {
+        FloatRect playerBounds = player_test.get_body().getGlobalBounds();
+        FloatRect wallBounds = wall.getGlobalBounds();
+        nextPos= playerBounds;
+        nextPos.left += 600.0f;//+walk speed ręcznie bo jest prywatny
+        nextPos.top += 600.0f;
+
+        if (wallBounds.intersects(nextPos))
+        {
+            std::cout << "Collision" << endl;
+        }
+    }
+
+}
+
+
 void ucieczka_func(Text ucieczka, Vector2f player_test, Font font, RenderWindow& window){
     ucieczka.setFont(font);
     ucieczka.setFillColor(sf::Color::Magenta);
     ucieczka.setCharacterSize(50);
-    ucieczka.setString("Ucieczka nie powiodla sie!");
-    ucieczka.setPosition(player_test.x-300,player_test.y-60);
+    ucieczka.setString("There is no Escape!");
+    ucieczka.setPosition(player_test.x-240,player_test.y-60);
     window.draw(ucieczka);
     window.display();
     Sleep (2600);

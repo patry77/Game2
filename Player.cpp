@@ -9,6 +9,7 @@
     body.setTexture(texture);
 }
 
+
 void Player::draw(RenderTarget &target, RenderStates state) const{
     target.draw(this->body, state);
 }
