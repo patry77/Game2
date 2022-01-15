@@ -8,7 +8,6 @@
 #include <cstdlib>
 #include <ctime>
 #include <Windows.h>
-#include <limits>
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 #include "Player.h"
@@ -28,8 +27,9 @@ bool collision_detection(int enemy_count, vector<NPC> &enemy, Player &player_tes
 void object_collision(Player &player_test, vector<RectangleShape> &Walls, Texture object);
 void ucieczka_func(Text ucieczka, Vector2f player_test, Font font, RenderWindow& window);
 void stats_func(Text stats, Vector2f player_test, Font font, RenderWindow& window, vector <int> states);
-vector <int> fight_func_logic(int quantity_ststs, vector <int> states);
+vector <int> fight_func_logic(int quantity_ststs, vector <int> states, vector <int> stats_after_item);
 void fight_func_draw(Vector2f player_test, Font font, RenderWindow& window);
+vector <int> use_item_func(int quantity_ststs);
 
 int main() {
     //Muzyka
@@ -54,6 +54,7 @@ int main() {
     //vector statystyk
     int quantity_ststs=4;
     vector <int> states (quantity_ststs);
+    vector <int> stats_after_item (quantity_ststs);
     states.at(0)=100;
     states.at(1)=10;
     states.at(2)=100;
@@ -199,8 +200,13 @@ int main() {
                                                                 case Keyboard::Return:
                                                                     switch (combat_menu.GetPressedItem()) {
                                                                         case 0:{//walka
-                                                                            states = fight_func_logic(quantity_ststs, states);
+                                                                            states = fight_func_logic(quantity_ststs, states, stats_after_item);
                                                                             fight_func_draw(player_test.get_position(), font , window);
+
+                                                                            //po uzyciu use item sie resetuje
+                                                                            stats_after_item.at(0)=0;
+                                                                            stats_after_item.at(1)=0;
+
                                                                             if(states.at(0)<=0){
                                                                                 Text end_text;
                                                                                 end_text.setFont(font);
@@ -233,7 +239,7 @@ int main() {
                                                                         }
                                                                             break;
                                                                         case 1://use item
-                                                                            cout << "222" <<endl;
+                                                                            stats_after_item = use_item_func(quantity_ststs);
                                                                             break;
                                                                         case 2:{//stats
                                                                             while(!Keyboard::isKeyPressed(Keyboard::Escape)){
@@ -507,18 +513,37 @@ void stats_func(Text stats, Vector2f player_test, Font font, RenderWindow& windo
         window.draw(op_damage);
         window.display();
 }
-vector <int> fight_func_logic(int quantity_ststs, vector <int> states){
+vector <int> fight_func_logic(int quantity_ststs, vector <int> states, vector <int> stats_after_item){
     vector <int> stats {states};
+    int my_damage =( std::rand() % 20 ) + 10;
+    int op_damage =( std::rand() % 20 ) + 10;
+
+    int shield = stats_after_item.at(0);
+    int sword = stats_after_item.at(1);
+
     //health student
-    stats.at(0)-=20;
+    stats.at(0)-=op_damage+shield;
     //damage student
-    stats.at(1)=50;
+    stats.at(1)=my_damage+sword;
     //health oponent
-    stats.at(2)-=50;
+    stats.at(2)-=(my_damage+sword);
     //damage oponent
-    stats.at(3)=20;
+    stats.at(3)=op_damage;
 
     return stats;
+}
+
+vector <int> use_item_func(int quantity_ststs){
+    vector <int> stats_after_item(quantity_ststs);
+    int shield =( std::rand() % 20 ) + 5;
+    int sword =( std::rand() % 10 ) + 5;
+
+    //my health shield
+    stats_after_item.at(0) = shield;
+    //my damage sword
+    stats_after_item.at(1) = sword;
+
+    return stats_after_item;
 }
 
 void fight_func_draw(Vector2f player_test, Font font, RenderWindow& window){
