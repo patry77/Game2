@@ -157,6 +157,7 @@ int main() {
                                         if(collision_detection(enemy_count, enemy, player_test)){
                                             Combat_menu combat_menu(window.getSize().x, window.getSize().y, player_test.get_position());
                                             bool ucieczka = false;
+                                            bool fight_ongoing = false;
                                             while (!ucieczka && !Keyboard::isKeyPressed(Keyboard::X)) {
 
                                                 //tlo podczas walki
@@ -167,11 +168,32 @@ int main() {
                                                 arena_sprite.setPosition(player_test.get_position().x,player_test.get_position().y);
                                                 arena_sprite.setOrigin(1920/2,1080/2);
 
-                                                //sprite walki:
+                                                //sprite postaci walki:
+                                                Texture my_body;
+                                                my_body.loadFromFile("../walka_ja.png");
+                                                Sprite my_body_sprite;
+                                                my_body_sprite.setTexture(my_body);
+                                                my_body_sprite.setPosition(player_test.get_position().x-660,player_test.get_position().y-120);
+                                                my_body_sprite.setOrigin(358/2,488/2);
 
-                                                //update bedzie po nacisnieciu przyciku fight, dodac sprite do funkcji na dole maina
+                                                Texture op_body;
+                                                op_body.loadFromFile("../Student_Zombie_girl.png");
+                                                Sprite op_body_sprite;
+                                                op_body_sprite.setTexture(op_body);
+                                                op_body_sprite.setPosition(player_test.get_position().x+660,player_test.get_position().y-120);
+                                                op_body_sprite.setOrigin(360/2,360/2);
 
+                                                //krew
+                                                Texture blood;
+                                                blood.loadFromFile("../blood.png");
+                                                Sprite blood_sprite_op, blood_sprite_myself;
+                                                blood_sprite_myself.setTexture(blood);
+                                                blood_sprite_myself.setPosition(player_test.get_position().x-660,player_test.get_position().y-80);
+                                                blood_sprite_myself.setOrigin(250/2,300/2);
 
+                                                blood_sprite_op.setTexture(blood);
+                                                blood_sprite_op.setPosition(player_test.get_position().x+660,player_test.get_position().y-100);
+                                                blood_sprite_op.setOrigin(250/2,300/2);
 
                                                 while (window.pollEvent(ev)) {
                                                     switch (ev.type) {
@@ -201,13 +223,14 @@ int main() {
                                                                     switch (combat_menu.GetPressedItem()) {
                                                                         case 0:{//walka
                                                                             states = fight_func_logic(quantity_ststs, states, stats_after_item);
-                                                                            fight_func_draw(player_test.get_position(), font , window);
+                                                                            fight_ongoing=true;
 
                                                                             //po uzyciu use item sie resetuje
                                                                             stats_after_item.at(0)=0;
                                                                             stats_after_item.at(1)=0;
 
                                                                             if(states.at(0)<=0){
+                                                                                fight_ongoing = false;
                                                                                 Text end_text;
                                                                                 end_text.setFont(font);
                                                                                 end_text.setFillColor(sf::Color::Red);
@@ -222,6 +245,7 @@ int main() {
                                                                                 return 0;
                                                                             }
                                                                             if(states.at(2)<=0){
+                                                                                fight_ongoing =false;
                                                                                 Text win_text;
                                                                                 win_text.setFont(font);
                                                                                 win_text.setFillColor(sf::Color::Yellow);
@@ -267,6 +291,12 @@ int main() {
                                                 }
                                                 window.clear();
                                                 window.draw(arena_sprite);
+                                                window.draw(my_body_sprite);
+                                                window.draw(op_body_sprite);
+                                                if(fight_ongoing){
+                                                    window.draw(blood_sprite_op);
+                                                    window.draw(blood_sprite_myself);
+                                                }
                                                 combat_menu.draw(window);
                                                 window.display();
                                             }
@@ -278,6 +308,7 @@ int main() {
                                             music_play=true;
                                         }
                                         object_collision(player_test, Walls, sukiennice_text);
+
                                         //rysowanie gracza, mapy i innych przydatnych rzeczy
                                         window.clear();
                                         window.setView(view);
@@ -288,6 +319,7 @@ int main() {
                                             window.draw(enemy.at(i));
                                         }
                                         window.draw(player_test);
+
                                         //rysowanie collision boxów
                                         for (auto &i : Walls)
                                         {
@@ -549,5 +581,7 @@ vector <int> use_item_func(int quantity_ststs){
 }
 
 void fight_func_draw(Vector2f player_test, Font font, RenderWindow& window){
+
+
 
 }
