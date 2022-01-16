@@ -72,6 +72,7 @@ int main() {
     NPC npc3(&NPC_texture,2900.0f,2400.0f);
     NPC npc4(&NPC_texture,3000.0f,2800.0f);
     NPC npc5(&NPC_texture,2800.0f,3000.0f);
+    NPC npc6(&NPC_texture,2800.0f,2960.0f);
 
     //Enemies
     Texture Enemy_texture;
@@ -321,6 +322,7 @@ int main() {
                                         window.draw(npc3);
                                         window.draw(npc4);
                                         window.draw(npc5);
+                                        window.draw(npc6);
                                         for(int i=0; i<enemy_count; i++){
                                             window.draw(enemy.at(i));
                                         }
