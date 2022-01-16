@@ -78,7 +78,7 @@ int main() {
     //NPC
     Texture NPC_texture;
     NPC_texture.loadFromFile("../walka_op.png");
-    NPC npc2(&NPC_texture,2800.0f,2800.0f);
+    NPC npc2(&NPC_texture,2800.0f,2400.0f);
     NPC npc3(&NPC_texture,2900.0f,2400.0f);
     NPC npc4(&NPC_texture,3000.0f,2800.0f);
     NPC npc5(&NPC_texture,2800.0f,3000.0f);
