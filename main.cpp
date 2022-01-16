@@ -26,7 +26,6 @@ Vector2u view_size(1000, 1000);
 bool music_play=false;
 void resize_view(const RenderWindow &window, View &view);
 bool collision_detection(int enemy_count, vector<NPC> &enemy, Player &player_test);
-void object_collision(Player &player_test, vector<RectangleShape> &Walls, Texture sukiennice_text, FloatRect playerBounds, float walkSpeed, RectangleShape nextBox);
 void ucieczka_func(Text ucieczka, Vector2f player_test, Font font, RenderWindow& window);
 void stats_func(Text stats, Vector2f player_test, Font font, RenderWindow& window, vector <int> states);
 vector <int> fight_func_logic(int quantity_ststs, vector <int> states, vector <int> stats_after_item);
@@ -202,7 +201,7 @@ int main() {
                                                     break;
                                             }
                                         }
-                                        player_test.update(delta_time);
+                                        player_test.update(delta_time, Walls);
 
                                         if (collision_detection(enemy_count, enemy, player_test)) {
                                             Combat_menu combat_menu(window.getSize().x, window.getSize().y,
@@ -382,9 +381,9 @@ int main() {
                                             music.play();
                                             music_play = true;
                                         }
-                                        object_collision(player_test, Walls, sukiennice_text,
-                                                         player_test.get_body().getGlobalBounds(),
-                                                         player_test.get_walkspeed(), nextBox);
+//                                        object_collision(player_test, Walls, sukiennice_text,
+//                                                         player_test.get_body().getGlobalBounds(),
+//                                                         player_test.get_walkspeed(), nextBox);
                                         if (player_test.get_body().getGlobalBounds().intersects(npc2.npcBounds())) {
                                             if (Keyboard::isKeyPressed(Keyboard::E)) {
                                                 cout << "INTERAKCJA Z npc2";
@@ -531,58 +530,7 @@ bool collision_detection(int enemy_count, vector<NPC> &enemy, Player &player_tes
     } return false;
 }
 
-void object_collision(Player &player_test, vector<RectangleShape> &Walls, Texture sukiennice_text, FloatRect playerBounds, float walkSpeed, RectangleShape nextBox){
 
-
-    for(auto &wall : Walls) {
-            FloatRect nextPos=player_test.get_body().getGlobalBounds();
-            Vector2f velocity=player_test.get_movementVelocity();
-            nextPos.left += velocity.x;
-            nextPos.top += velocity.y;
-            FloatRect wallBounds = wall.getGlobalBounds();
-            if(wallBounds.intersects(nextPos)){
-                cout << "Collision\n";
-            //kolizja prawo
-                if (playerBounds.left < wallBounds.left && playerBounds.left + playerBounds.width < wallBounds.left + wallBounds.width
-                && playerBounds.top < wallBounds.top + wallBounds.height
-                && playerBounds.top + playerBounds.height > wallBounds.top)
-                {
-                    player_test.set_walkspeed(0.f);
-                    player_test.set_position(wallBounds.left-playerBounds.width, player_test.get_position().y);
-        }
-                //kolizja lewo
-                if (playerBounds.left > wallBounds.left && playerBounds.left + playerBounds.width > wallBounds.left + wallBounds.width
-                    && playerBounds.top < wallBounds.top + wallBounds.height
-                    && playerBounds.top + playerBounds.height > wallBounds.top)
-                {
-                    player_test.set_walkspeed(0.f);
-                    player_test.set_position(wallBounds.left+wallBounds.width+playerBounds.width, player_test.get_position().y);
-                }
-                //kolizja gora *****WYLACZONA DO TESTU INTERAKCJI Z NPC****
-//                if (playerBounds.top > wallBounds.top
-//                && playerBounds.top + playerBounds.height > wallBounds.top + wallBounds.height
-//                    && playerBounds.left < wallBounds.left + wallBounds.width
-//                    && playerBounds.left + playerBounds.width > wallBounds.left)
-//                {
-//                    player_test.set_walkspeed(0.f);
-//                    player_test.set_position(player_test.get_position().x, wallBounds.top+wallBounds.height+playerBounds.height);
-//                }
-                //kolizja dol
-                if (playerBounds.top < wallBounds.top
-                    && playerBounds.top + playerBounds.height < wallBounds.top + wallBounds.height
-                    && playerBounds.left < wallBounds.left + wallBounds.width
-                    && playerBounds.left + playerBounds.width > wallBounds.left)
-                {
-                    player_test.set_walkspeed(0.f);
-                    player_test.set_position(player_test.get_position().x, wallBounds.top-playerBounds.height);
-                }
-    }else{
-            player_test.set_walkspeed(600.f);
-            }
-    }
-
-
-}
 
 
 void ucieczka_func(Text ucieczka, Vector2f player_test, Font font, RenderWindow& window){

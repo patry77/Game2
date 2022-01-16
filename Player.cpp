@@ -14,7 +14,7 @@ void Player::draw(RenderTarget &target, RenderStates state) const{
     target.draw(this->body, state);
 }
 
-void Player::update(float delta_time) {
+void Player::update(float delta_time, std::vector<RectangleShape> &Walls) {
     movement=Vector2f(0.0f, 0.0f);
     //kolizja lewo
     if(body.getPosition().x < 930.0f)
@@ -85,6 +85,46 @@ void Player::update(float delta_time) {
     else if(movement.x == 0.0f && movement.y < 0.0f ){
         row = 3;
         animation.update(row, delta_time);
+    }
+    for(auto &wall : Walls) {
+        FloatRect nextPos=body.getGlobalBounds();
+        playerBounds=body.getGlobalBounds();
+        nextPos.left += movement.x;
+        nextPos.top += movement.y;
+        FloatRect wallBounds = wall.getGlobalBounds();
+        if(wallBounds.intersects(nextPos)){
+            std::cout << "Collision\n";
+            //kolizja prawo
+            if (playerBounds.left < wallBounds.left && playerBounds.left + playerBounds.width < wallBounds.left + wallBounds.width
+                && playerBounds.top < wallBounds.top + wallBounds.height
+                && playerBounds.top + playerBounds.height > wallBounds.top)
+            {
+                movement.x=0.f;
+            }
+            //kolizja lewo
+            if (playerBounds.left > wallBounds.left && playerBounds.left + playerBounds.width > wallBounds.left + wallBounds.width
+                && playerBounds.top < wallBounds.top + wallBounds.height
+                && playerBounds.top + playerBounds.height > wallBounds.top)
+            {
+                movement.x=0.f;
+            }
+            //kolizja gora
+                if (playerBounds.top > wallBounds.top
+                && playerBounds.top + playerBounds.height > wallBounds.top + wallBounds.height
+                    && playerBounds.left < wallBounds.left + wallBounds.width
+                    && playerBounds.left + playerBounds.width > wallBounds.left)
+                {
+                    movement.y=0.f;
+                }
+            //kolizja dol
+            if (playerBounds.top < wallBounds.top
+                && playerBounds.top + playerBounds.height < wallBounds.top + wallBounds.height
+                && playerBounds.left < wallBounds.left + wallBounds.width
+                && playerBounds.left + playerBounds.width > wallBounds.left)
+            {
+                movement.y=0.f;
+            }
+        }
     }
 
     body.setTextureRect(animation.uv_rect);

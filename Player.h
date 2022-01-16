@@ -3,6 +3,7 @@
 #define GAME_PLAYER_H
 #include "Animation.h"
 #include <SFML/Graphics.hpp>
+#include <iostream>
 using namespace sf;
 
 class Player: public sf::Drawable{
@@ -15,7 +16,7 @@ public:
     Vector2f get_position() const { return body.getPosition(); }
     void set_position(float pos_x, float pos_y) { body.setPosition(pos_x, pos_y); } //kiedyś może się przyda
     void collided();
-    void update(float delta_time);
+    void update(float delta_time,  std::vector<RectangleShape> &Walls);
     RectangleShape get_body() const { return body;}
     void set_walkspeed(float speed) { walk_speed = speed;}
     float get_walkspeed(){return walk_speed;}
