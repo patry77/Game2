@@ -107,6 +107,20 @@ int main() {
         NPC temp_enemy {&Enemy_texture, pos_x, pos_y};
         enemy.push_back(temp_enemy);
     }
+    //golebie
+    Texture pigeon_texture;
+    pigeon_texture.loadFromFile("../golomp.png");
+    int pigeon_count = 50;
+    vector<NPC> pigeon;
+    srand( time( NULL ) );
+    for(int i =0; i<pigeon_count; i++){ //losowanie pozycji w rozmiarach granic
+        float pos_x = (( rand() % (4699-1100) ) + 970);
+        float pos_y = (( rand() % (5164-700) ) + 580);
+
+        NPC temp_enemy {&pigeon_texture, pos_x, pos_y};
+        pigeon.push_back(temp_enemy);
+    }
+
 
     //kamera - widok, zeby dobrze scalowal‚ obiekty przy zmianie rozmiaru okna i kamera przesuwala sie z postacia
     View view(FloatRect (0.0f, 0.0f, view_size.x, view_size.y));
@@ -486,6 +500,10 @@ int main() {
                                         window.draw(npc6);
                                         for(int i=0; i<enemy_count; i++){
                                             window.draw(enemy.at(i));
+                                        }
+                                        for(int i=0; i<pigeon_count; i++){
+                                            pigeon.at(i).set_size();
+                                            window.draw(pigeon.at(i));
                                         }
                                         window.draw(player_test);
                                         window.draw(nextBox);

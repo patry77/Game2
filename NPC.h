@@ -14,6 +14,7 @@ public:
     float pos_y=0.0f;
     Vector2f get_position() const { return body_npc.getPosition(); }
     void set_position() { body_npc.setPosition(pos_x, pos_y); }
+    void set_size(){body_npc.setSize(Vector2f(26.0f, 26.0f));}
 
 private:
     RectangleShape body_npc;
