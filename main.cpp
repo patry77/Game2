@@ -120,6 +120,55 @@ int main() {
     sukiennice.setTexture(sukiennice_text);
     sukiennice.setPosition(64*35, 64*40);
 
+    //Domki do tła
+    Texture blok_text;
+    blok_text.loadFromFile("../Grafika/Blok.png");
+    Sprite blok;
+    blok.setTexture(blok_text);
+    blok.setPosition(64*35, 64*79);
+
+    Sprite blok2;
+    blok2.setTexture(blok_text);
+    blok2.setPosition(64*30 +36, 64*79);
+
+    Sprite blok3;
+    blok3.setTexture(blok_text);
+    blok3.setPosition(64*55, 64*81);
+
+    Sprite blok4;
+    blok4.setTexture(blok_text);
+    blok4.setPosition(64*60 + 36, 64*81);
+
+    Sprite blok5;
+    blok5.setTexture(blok_text);
+    blok5.setPosition(64*10, 64*79);
+
+    Sprite blok6;
+    blok6.setTexture(blok_text);
+    blok6.setPosition(64*5 + 36, 64*79);
+
+    Texture blok_text_2;
+    blok_text_2.loadFromFile("../Grafika/Blok_2.png");
+    Sprite blok_2;
+    blok_2.setTexture(blok_text_2);
+    blok_2.setPosition(64*47, 64*77);
+
+    Sprite blok_2_3;
+    blok_2_3.setTexture(blok_text_2);
+    blok_2_3.setPosition(64*67, 64*77);
+
+    Sprite blok_2_4;
+    blok_2_4.setTexture(blok_text_2);
+    blok_2_4.setPosition(64*16, 64*76);
+
+    Sprite blok_2_5;
+    blok_2_5.setTexture(blok_text_2);
+    blok_2_5.setPosition(0, 64*74);
+
+    Sprite blok_2_6;
+    blok_2_6.setTexture(blok_text_2);
+    blok_2_6.setPosition(64*80, 64*77);
+
 //    RectangleShape sukieBox;
 //    sukieBox.setSize(Vector2f(sukiennice_text.getSize().x, sukiennice_text.getSize().y));
 //    sukieBox.setFillColor(Color::Transparent);
@@ -443,6 +492,18 @@ int main() {
                                         window.draw(uczelnia);
                                         window.draw(uczelnia_2);
                                         window.draw(uczelnia_3);
+                                        window.draw(blok_2);
+                                        window.draw(blok_2_3);
+                                        window.draw(blok_2_4);
+                                        window.draw(blok_2_5);
+                                        window.draw(blok_2_6);
+                                        window.draw(blok);
+                                        window.draw(blok2);
+                                        window.draw(blok3);
+                                        window.draw(blok4);
+                                        window.draw(blok5);
+                                        window.draw(blok6);
+
                                         if(dialog==true) {
                                             dialogbox.setPosition(player_test.get_position().x-450, player_test.get_position().y+200);
                                             window.draw(dialogbox);
@@ -568,7 +629,7 @@ void ucieczka_func(Text ucieczka, Vector2f player_test, Font font, RenderWindow&
     ucieczka.setFont(font);
     ucieczka.setFillColor(sf::Color::Magenta);
     ucieczka.setCharacterSize(50);
-    ucieczka.setString("Nie ma ucieczki!");
+    ucieczka.setString("There is no escape!");
     ucieczka.setPosition(player_test.x-240,player_test.y-60);
     window.draw(ucieczka);
     window.display();
