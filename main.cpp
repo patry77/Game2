@@ -484,7 +484,7 @@ void ucieczka_func(Text ucieczka, Vector2f player_test, Font font, RenderWindow&
 
 void stats_func(Text stats, Vector2f player_test, Font font, RenderWindow& window, vector <int> states){
     Texture frame;
-    frame.loadFromFile("../frame.jpg");
+    frame.loadFromFile("../Grafika/frame.jpg");
     frame.setSmooth(true);
 
     Sprite frame_sprite;
