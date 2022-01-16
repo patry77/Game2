@@ -43,9 +43,9 @@ int main() {
     if (!music.openFromFile("../muzyka.wav"))
         return -1;
 
-    sf::Music battle_music;
-    battle_music.setVolume(volume);
-    if(!battle_music.openFromFile("../muzyka.wav"))
+    sf::Music Combat_music;
+    Combat_music.setVolume(volume);
+    if(!Combat_music.openFromFile("../Combat_music.wav"))
         return -1;
 
     //Czcionka
@@ -231,6 +231,7 @@ int main() {
                                         if(collision_detection(enemy_count, enemy, player_test)){
                                             Combat_menu combat_menu(window.getSize().x, window.getSize().y, player_test.get_position());
                                             music.stop();
+                                            Combat_music.play();
                                             bool ucieczka = false;
                                             bool fight_ongoing = false;
                                             while (!ucieczka && !Keyboard::isKeyPressed(Keyboard::X)) {
@@ -398,6 +399,7 @@ int main() {
                                                 window.display();
                                             }
                                             music.play();
+                                            Combat_music.stop();
 
                                         }
                                         view.setCenter(player_test.get_position());
