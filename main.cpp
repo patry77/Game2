@@ -9,6 +9,7 @@
 #include <cstdlib>
 #include <ctime>
 #include <Windows.h>
+#include <sstream>
 #include <limits>
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
@@ -21,6 +22,14 @@
 
 using namespace sf;
 using namespace std;
+
+
+
+Clock timer;
+unsigned int character = 0;
+std::string str = "SIEMA AGH 123 123 test test \ndol";
+
+
 int player_lvl=1;
 Vector2u view_size(1000, 1000);
 bool music_play=false;
@@ -53,6 +62,7 @@ int main() {
     if (!font.loadFromFile("../alagard.ttf")) {
         cerr << "błąd" << endl;
     }
+
     RenderWindow window {VideoMode(view_size.x, view_size.y),"Game"};
     window.setFramerateLimit(60);
 
@@ -75,9 +85,15 @@ int main() {
     Player player_test(&player_texture, Vector2u(4,4), 0.3f);
     FloatRect playerBounds;
 //    FloatRect nextPos;
+
+
+    sf::Text text("", font, 50);
+    text.setPosition(player_test.get_position().x-400, player_test.get_position().y+200);
+
+
     //NPC
     Texture NPC_texture;
-    NPC_texture.loadFromFile("../Grafika/npc.png");
+    NPC_texture.loadFromFile("../walka_op.png");
     NPC npc2(&NPC_texture,2800.0f,2400.0f);
     NPC npc3(&NPC_texture,2900.0f,2400.0f);
     NPC npc4(&NPC_texture,3000.0f,2800.0f);
@@ -85,12 +101,7 @@ int main() {
     NPC npc6(&NPC_texture,2800.0f,2960.0f);
 
 
-    RectangleShape nextBox;
-    nextBox.setSize(Vector2f(player_test.get_body().getSize().x, player_test.get_body().getSize().y));
-    nextBox.setFillColor(Color::Transparent);
-    nextBox.setOutlineColor(Color::Red);
-    nextBox.setOutlineThickness(1.f);
-    nextBox.setPosition(player_test.get_position().x, player_test.get_position().y);
+
 
 
 
@@ -473,11 +484,21 @@ int main() {
 //                                        object_collision(player_test, Walls, sukiennice_text,
 //                                                         player_test.get_body().getGlobalBounds(),
 //                                                         player_test.get_walkspeed(), nextBox);
+
                                         if (player_test.get_body().getGlobalBounds().intersects(npc2.npcBounds())) {
                                             if (Keyboard::isKeyPressed(Keyboard::E)) {
                                                 if(!dialog){
                                                     dialog=true;
                                                 }
+                                            }
+                                        }
+                                        if(dialog==true){
+                                            text.setPosition(player_test.get_position().x-400, player_test.get_position().y+200);
+                                            if (timer.getElapsedTime().asMilliseconds() > 50 && character < str.length())
+                                            {
+                                                timer.restart();
+                                                character++;
+                                                text.setString( sf::String( str.substr(0, character) ) );
                                             }
                                         }
 //                                        if (dialog == true) {
@@ -486,13 +507,11 @@ int main() {
 //                                                       player_test.get_position());
 //                                            }
 //                                        }
-                                        FloatRect testPos=player_test.get_body().getGlobalBounds();
-                                        nextBox.setPosition(testPos.left, testPos.top);
                                         //rysowanie gracza, mapy i innych przydatnych rzeczy
                                         window.clear();
                                         window.setView(view);
                                         map.draw(window);
-
+                                        window.draw(sukiennice);
                                         window.draw(npc2);
                                         window.draw(npc3);
                                         window.draw(npc4);
@@ -507,10 +526,11 @@ int main() {
                                         }
                                         window.draw(sukiennice);
                                         window.draw(player_test);
-                                        window.draw(nextBox);
                                         window.draw(uczelnia);
                                         window.draw(uczelnia_2);
                                         window.draw(uczelnia_3);
+
+
                                         window.draw(blok_2);
                                         window.draw(blok_2_3);
                                         window.draw(blok_2_4);
@@ -526,6 +546,7 @@ int main() {
                                         if(dialog==true) {
                                             dialogbox.setPosition(player_test.get_position().x-450, player_test.get_position().y+200);
                                             window.draw(dialogbox);
+                                            window.draw(text);
                                         }
                                         //rysowanie collision boxów
                                         for (auto &i : Walls)
@@ -650,7 +671,7 @@ void ucieczka_func(Text ucieczka, Vector2f player_test, Font font, RenderWindow&
     ucieczka.setFont(font);
     ucieczka.setFillColor(sf::Color::Magenta);
     ucieczka.setCharacterSize(50);
-    ucieczka.setString("There is no escape!");
+    ucieczka.setString("Nie ma ucieczki!");
     ucieczka.setPosition(player_test.x-240,player_test.y-60);
     window.draw(ucieczka);
     window.display();
