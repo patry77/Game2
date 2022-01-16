@@ -108,13 +108,13 @@ void Player::update(float delta_time, std::vector<RectangleShape> &Walls) {
                 movement.x=0.f;
             }
             //kolizja gora
-//                if (playerBounds.top > wallBounds.top
-//                && playerBounds.top + playerBounds.height > wallBounds.top + wallBounds.height
-//                    && playerBounds.left < wallBounds.left + wallBounds.width
-//                    && playerBounds.left + playerBounds.width > wallBounds.left)
-//                {
-//                    movement.y=0.f;
-//                }
+                if (playerBounds.top > wallBounds.top
+                && playerBounds.top + playerBounds.height > wallBounds.top + wallBounds.height
+                    && playerBounds.left < wallBounds.left + wallBounds.width
+                    && playerBounds.left + playerBounds.width > wallBounds.left)
+                {
+                    movement.y=0.f;
+                }
             //kolizja dol
             if (playerBounds.top < wallBounds.top
                 && playerBounds.top + playerBounds.height < wallBounds.top + wallBounds.height
