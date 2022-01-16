@@ -5,6 +5,7 @@
 */
 #include <iostream>
 #include <vector>
+#include <string>
 #include <cstdlib>
 #include <ctime>
 #include <Windows.h>
@@ -31,8 +32,11 @@ void stats_func(Text stats, Vector2f player_test, Font font, RenderWindow& windo
 vector <int> fight_func_logic(int quantity_ststs, vector <int> states, vector <int> stats_after_item);
 void fight_func_draw(Vector2f player_test, Font font, RenderWindow& window);
 vector <int> use_item_func(int quantity_ststs);
+void dialog_box(RenderWindow& window, Font font, string text, Sprite dialog_box, Vector2f player_position);
+
 
 int main() {
+    bool dialog=false;
     //Muzyka
     float volume = 10.0f;
     sf::Music music;
@@ -141,14 +145,20 @@ int main() {
     std::vector<RectangleShape> Walls;
 
     RectangleShape wall;
-    wall.setFillColor(Color::Red);
+    wall.setFillColor(Color::Transparent);
     wall.setSize(Vector2f(sukiennice_text.getSize().x,sukiennice_text.getSize().y));
     wall.setOrigin(wall.getSize().x/2, wall.getSize().y/4);
     wall.setPosition(sukiennice.getPosition().x+(sukiennice_text.getSize().x/2), sukiennice.getPosition().y+(sukiennice_text.getSize().y/2));
 
 
     Walls.push_back(wall);
-
+    //dialog box
+    Texture dialog_box_txt;
+    dialog_box_txt.loadFromFile("../dialoguebox1.png");
+    Sprite dialogbox;
+    dialogbox.setTexture(dialog_box_txt);
+    dialogbox.setPosition(player_test.get_position().x-450, player_test.get_position().y+300);
+    dialogbox.setScale(7, 7);
 
 
     //odswiezanie do animacji
@@ -194,8 +204,9 @@ int main() {
                                         }
                                         player_test.update(delta_time);
 
-                                        if(collision_detection(enemy_count, enemy, player_test)){
-                                            Combat_menu combat_menu(window.getSize().x, window.getSize().y, player_test.get_position());
+                                        if (collision_detection(enemy_count, enemy, player_test)) {
+                                            Combat_menu combat_menu(window.getSize().x, window.getSize().y,
+                                                                    player_test.get_position());
                                             bool ucieczka = false;
                                             bool fight_ongoing = false;
                                             while (!ucieczka && !Keyboard::isKeyPressed(Keyboard::X)) {
@@ -205,35 +216,40 @@ int main() {
                                                 arena.loadFromFile("../Grafika/arena.png");
                                                 Sprite arena_sprite;
                                                 arena_sprite.setTexture(arena);
-                                                arena_sprite.setPosition(player_test.get_position().x,player_test.get_position().y);
-                                                arena_sprite.setOrigin(1920/2,1080/2);
+                                                arena_sprite.setPosition(player_test.get_position().x,
+                                                                         player_test.get_position().y);
+                                                arena_sprite.setOrigin(1920 / 2, 1080 / 2);
 
                                                 //sprite postaci walki:
                                                 Texture my_body;
                                                 my_body.loadFromFile("../walka_ja.png");
                                                 Sprite my_body_sprite;
                                                 my_body_sprite.setTexture(my_body);
-                                                my_body_sprite.setPosition(player_test.get_position().x-660,player_test.get_position().y-120);
-                                                my_body_sprite.setOrigin(358/2,488/2);
+                                                my_body_sprite.setPosition(player_test.get_position().x - 660,
+                                                                           player_test.get_position().y - 120);
+                                                my_body_sprite.setOrigin(358 / 2, 488 / 2);
 
                                                 Texture op_body;
                                                 op_body.loadFromFile("../Student_Zombie_girl.png");
                                                 Sprite op_body_sprite;
                                                 op_body_sprite.setTexture(op_body);
-                                                op_body_sprite.setPosition(player_test.get_position().x+660,player_test.get_position().y-120);
-                                                op_body_sprite.setOrigin(360/2,360/2);
+                                                op_body_sprite.setPosition(player_test.get_position().x + 660,
+                                                                           player_test.get_position().y - 120);
+                                                op_body_sprite.setOrigin(360 / 2, 360 / 2);
 
                                                 //krew
                                                 Texture blood;
                                                 blood.loadFromFile("../blood.png");
                                                 Sprite blood_sprite_op, blood_sprite_myself;
                                                 blood_sprite_myself.setTexture(blood);
-                                                blood_sprite_myself.setPosition(player_test.get_position().x-660,player_test.get_position().y-80);
-                                                blood_sprite_myself.setOrigin(250/2,300/2);
+                                                blood_sprite_myself.setPosition(player_test.get_position().x - 660,
+                                                                                player_test.get_position().y - 80);
+                                                blood_sprite_myself.setOrigin(250 / 2, 300 / 2);
 
                                                 blood_sprite_op.setTexture(blood);
-                                                blood_sprite_op.setPosition(player_test.get_position().x+660,player_test.get_position().y-100);
-                                                blood_sprite_op.setOrigin(250/2,300/2);
+                                                blood_sprite_op.setPosition(player_test.get_position().x + 660,
+                                                                            player_test.get_position().y - 100);
+                                                blood_sprite_op.setOrigin(250 / 2, 300 / 2);
 
                                                 while (window.pollEvent(ev)) {
                                                     switch (ev.type) {
@@ -261,40 +277,51 @@ int main() {
                                                                     break;
                                                                 case Keyboard::Return:
                                                                     switch (combat_menu.GetPressedItem()) {
-                                                                        case 0:{//walka
-                                                                            states = fight_func_logic(quantity_ststs, states, stats_after_item);
-                                                                            fight_ongoing=true;
+                                                                        case 0: {//walka
+                                                                            states = fight_func_logic(quantity_ststs,
+                                                                                                      states,
+                                                                                                      stats_after_item);
+                                                                            fight_ongoing = true;
 
                                                                             //po uzyciu use item sie resetuje
-                                                                            stats_after_item.at(0)=0;
-                                                                            stats_after_item.at(1)=0;
+                                                                            stats_after_item.at(0) = 0;
+                                                                            stats_after_item.at(1) = 0;
 
-                                                                            if(states.at(0)<=0){
+                                                                            if (states.at(0) <= 0) {
                                                                                 fight_ongoing = false;
                                                                                 Text end_text;
                                                                                 end_text.setFont(font);
                                                                                 end_text.setFillColor(sf::Color::Red);
                                                                                 end_text.setCharacterSize(60);
                                                                                 end_text.setString("GAME OVER!");
-                                                                                end_text.setPosition(player_test.get_position().x-180,player_test.get_position().y-60);
+                                                                                end_text.setPosition(
+                                                                                        player_test.get_position().x -
+                                                                                        180,
+                                                                                        player_test.get_position().y -
+                                                                                        60);
                                                                                 window.draw(end_text);
                                                                                 window.display();
                                                                                 music.stop();
-                                                                                Sleep (2000);
+                                                                                Sleep(2000);
                                                                                 window.close();
                                                                                 return 0;
                                                                             }
-                                                                            if(states.at(2)<=0){
+                                                                            if (states.at(2) <= 0) {
                                                                                 fight_ongoing = false;
                                                                                 Text win_text;
                                                                                 win_text.setFont(font);
-                                                                                win_text.setFillColor(sf::Color::Yellow);
+                                                                                win_text.setFillColor(
+                                                                                        sf::Color::Yellow);
                                                                                 win_text.setCharacterSize(60);
                                                                                 win_text.setString("VICTORY!");
-                                                                                win_text.setPosition(player_test.get_position().x-180,player_test.get_position().y-60);
+                                                                                win_text.setPosition(
+                                                                                        player_test.get_position().x -
+                                                                                        180,
+                                                                                        player_test.get_position().y -
+                                                                                        60);
                                                                                 window.draw(win_text);
                                                                                 window.display();
-                                                                                Sleep (2000);
+                                                                                Sleep(2000);
                                                                                 ucieczka = true;
                                                                                 //reset stats
                                                                                 states.at(0) = 100;
@@ -305,22 +332,30 @@ int main() {
                                                                         }
                                                                             break;
                                                                         case 1://use item
-                                                                            stats_after_item = use_item_func(quantity_ststs);
+                                                                            stats_after_item = use_item_func(
+                                                                                    quantity_ststs);
                                                                             break;
-                                                                        case 2:{//stats
-                                                                            while(!Keyboard::isKeyPressed(Keyboard::Escape)){
+                                                                        case 2: {//stats
+                                                                            while (!Keyboard::isKeyPressed(
+                                                                                    Keyboard::Escape)) {
                                                                                 Text stats;
-                                                                                stats_func(stats, player_test.get_position(), font , window, states);
+                                                                                stats_func(stats,
+                                                                                           player_test.get_position(),
+                                                                                           font, window, states);
                                                                             }
                                                                         }
                                                                             break;
-                                                                        case 3:{//ucieczka
-                                                                            int szansa_na_ucieczke = (rand() %  99) + 1;
-                                                                            if(szansa_na_ucieczke<=45) ucieczka = true;
-                                                                            else{
+                                                                        case 3: {//ucieczka
+                                                                            int szansa_na_ucieczke = (rand() % 99) + 1;
+                                                                            if (szansa_na_ucieczke <= 45)
+                                                                                ucieczka = true;
+                                                                            else {
                                                                                 Text ucieczka;
-                                                                                ucieczka_func(ucieczka, player_test.get_position(), font , window);
-                                                                                combat_menu.ucieczka(player_test.get_position());
+                                                                                ucieczka_func(ucieczka,
+                                                                                              player_test.get_position(),
+                                                                                              font, window);
+                                                                                combat_menu.ucieczka(
+                                                                                        player_test.get_position());
                                                                             }
                                                                         }
                                                                             break;
@@ -333,7 +368,7 @@ int main() {
                                                 window.draw(arena_sprite);
                                                 window.draw(my_body_sprite);
                                                 window.draw(op_body_sprite);
-                                                if(fight_ongoing){
+                                                if (fight_ongoing) {
                                                     window.draw(blood_sprite_op);
                                                     window.draw(blood_sprite_myself);
                                                 }
@@ -343,11 +378,24 @@ int main() {
 
                                         }
                                         view.setCenter(player_test.get_position());
-                                        if(music_play==false){
+                                        if (music_play == false) {
                                             music.play();
-                                            music_play=true;
+                                            music_play = true;
                                         }
-                                        object_collision(player_test, Walls, sukiennice_text, player_test.get_body().getGlobalBounds(), player_test.get_walkspeed(), nextBox);
+                                        object_collision(player_test, Walls, sukiennice_text,
+                                                         player_test.get_body().getGlobalBounds(),
+                                                         player_test.get_walkspeed(), nextBox);
+                                        if (player_test.get_body().getGlobalBounds().intersects(npc2.npcBounds())) {
+                                            if (Keyboard::isKeyPressed(Keyboard::E)) {
+                                                cout << "INTERAKCJA Z npc2";
+                                            }
+                                        }
+//                                        if (dialog == true) {
+//                                            while (!Keyboard::isKeyPressed(Keyboard::E)) {
+//                                            dialog_box(window, font, "Test siema", dialogbox,
+//                                                       player_test.get_position());
+//                                            }
+//                                        }
                                         FloatRect testPos=player_test.get_body().getGlobalBounds();
                                         nextBox.setPosition(testPos.left, testPos.top);
                                         //rysowanie gracza, mapy i innych przydatnych rzeczy
@@ -355,6 +403,7 @@ int main() {
                                         window.setView(view);
                                         map.draw(window);
                                         window.draw(sukiennice);
+//                                        window.draw(dialog_box);
                                         window.draw(npc2);
                                         window.draw(npc3);
                                         window.draw(npc4);
@@ -501,6 +550,32 @@ void object_collision(Player &player_test, vector<RectangleShape> &Walls, Textur
                     player_test.set_walkspeed(0.f);
                     player_test.set_position(wallBounds.left-playerBounds.width, player_test.get_position().y);
         }
+                //kolizja lewo
+                if (playerBounds.left > wallBounds.left && playerBounds.left + playerBounds.width > wallBounds.left + wallBounds.width
+                    && playerBounds.top < wallBounds.top + wallBounds.height
+                    && playerBounds.top + playerBounds.height > wallBounds.top)
+                {
+                    player_test.set_walkspeed(0.f);
+                    player_test.set_position(wallBounds.left+wallBounds.width+playerBounds.width, player_test.get_position().y);
+                }
+                //kolizja gora *****WYLACZONA DO TESTU INTERAKCJI Z NPC****
+//                if (playerBounds.top > wallBounds.top
+//                && playerBounds.top + playerBounds.height > wallBounds.top + wallBounds.height
+//                    && playerBounds.left < wallBounds.left + wallBounds.width
+//                    && playerBounds.left + playerBounds.width > wallBounds.left)
+//                {
+//                    player_test.set_walkspeed(0.f);
+//                    player_test.set_position(player_test.get_position().x, wallBounds.top+wallBounds.height+playerBounds.height);
+//                }
+                //kolizja dol
+                if (playerBounds.top < wallBounds.top
+                    && playerBounds.top + playerBounds.height < wallBounds.top + wallBounds.height
+                    && playerBounds.left < wallBounds.left + wallBounds.width
+                    && playerBounds.left + playerBounds.width > wallBounds.left)
+                {
+                    player_test.set_walkspeed(0.f);
+                    player_test.set_position(player_test.get_position().x, wallBounds.top-playerBounds.height);
+                }
     }else{
             player_test.set_walkspeed(600.f);
             }
@@ -617,4 +692,20 @@ vector <int> use_item_func(int quantity_ststs){
     stats_after_item.at(1) = sword;
 
     return stats_after_item;
+}
+//do poprawy
+void dialog_box(RenderWindow& window, Font font, string text, Sprite dialog_box, Vector2f player_position){
+    window.draw(dialog_box);
+    Text dialog;
+    dialog.setFont(font);
+    dialog.setFillColor(sf::Color::Red);
+    dialog.setCharacterSize(30);
+    dialog.setPosition(player_position.x+100,player_position.y-40);
+    String animation;
+    for(int i;i<text.length();i++){
+        animation+=text[i];
+        dialog.setString(animation);
+        Sleep(200);
+        window.draw(dialog);
+    }
 }
