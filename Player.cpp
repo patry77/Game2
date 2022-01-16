@@ -5,7 +5,7 @@
     row = 0;
     body.setSize(Vector2f(64.0f, 64.0f));
     body.setOrigin(body.getSize() / 2.0f);
-    body.setPosition(2880.0f, 2880.0f);
+    body.setPosition(2880.0f, 3200.0f);
     body.setTexture(texture);
 }
 
