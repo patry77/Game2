@@ -410,7 +410,9 @@ int main() {
 //                                                         player_test.get_walkspeed(), nextBox);
                                         if (player_test.get_body().getGlobalBounds().intersects(npc2.npcBounds())) {
                                             if (Keyboard::isKeyPressed(Keyboard::E)) {
-                                                cout << "INTERAKCJA Z npc2";
+                                                if(!dialog){
+                                                    dialog=true;
+                                                }
                                             }
                                         }
 //                                        if (dialog == true) {
