@@ -15,7 +15,7 @@ void Player::draw(RenderTarget &target, RenderStates state) const{
 }
 
 void Player::update(float delta_time) {
-    Vector2f movement(0.0f, 0.0f);
+    movement=Vector2f(0.0f, 0.0f);
     //kolizja lewo
     if(body.getPosition().x < 930.0f)
         this->body.setPosition(930.0f, body.getPosition().y);

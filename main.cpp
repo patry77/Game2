@@ -8,6 +8,7 @@
 #include <cstdlib>
 #include <ctime>
 #include <Windows.h>
+#include <limits>
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 #include "Player.h"
@@ -19,12 +20,12 @@
 
 using namespace sf;
 using namespace std;
-
+int player_lvl=1;
 Vector2u view_size(1000, 1000);
 bool music_play=false;
 void resize_view(const RenderWindow &window, View &view);
 bool collision_detection(int enemy_count, vector<NPC> &enemy, Player &player_test);
-void object_collision(Player &player_test, vector<RectangleShape> &Walls, Texture object);
+void object_collision(Player &player_test, vector<RectangleShape> &Walls, Texture sukiennice_text, FloatRect playerBounds, float walkSpeed, RectangleShape nextBox);
 void ucieczka_func(Text ucieczka, Vector2f player_test, Font font, RenderWindow& window);
 void stats_func(Text stats, Vector2f player_test, Font font, RenderWindow& window, vector <int> states);
 vector <int> fight_func_logic(int quantity_ststs, vector <int> states, vector <int> stats_after_item);
@@ -64,7 +65,8 @@ int main() {
     Texture player_texture;
     player_texture.loadFromFile("../Grafika/body_move.png");
     Player player_test(&player_texture, Vector2u(4,4), 0.3f);
-
+    FloatRect playerBounds;
+//    FloatRect nextPos;
     //NPC
     Texture NPC_texture;
     NPC_texture.loadFromFile("../walka_op.png");
@@ -73,6 +75,16 @@ int main() {
     NPC npc4(&NPC_texture,3000.0f,2800.0f);
     NPC npc5(&NPC_texture,2800.0f,3000.0f);
     NPC npc6(&NPC_texture,2800.0f,2960.0f);
+
+
+    RectangleShape nextBox;
+    nextBox.setSize(Vector2f(player_test.get_body().getSize().x, player_test.get_body().getSize().y));
+    nextBox.setFillColor(Color::Transparent);
+    nextBox.setOutlineColor(Color::Red);
+    nextBox.setOutlineThickness(1.f);
+    nextBox.setPosition(player_test.get_position().x, player_test.get_position().y);
+
+
 
     //Enemies
     Texture Enemy_texture;
@@ -100,6 +112,13 @@ int main() {
     sukiennice.setTexture(sukiennice_text);
     sukiennice.setPosition(64*35, 64*40);
 
+//    RectangleShape sukieBox;
+//    sukieBox.setSize(Vector2f(sukiennice_text.getSize().x, sukiennice_text.getSize().y));
+//    sukieBox.setFillColor(Color::Transparent);
+//    sukieBox.setOutlineColor(Color::Red);
+//    sukieBox.setOutlineThickness(3.f);
+//    sukieBox.setPosition(sukiennice.getPosition().x, sukiennice.getPosition().y);
+
     Texture uczelnia_text;
     uczelnia_text.loadFromFile("../Grafika/Test.png");
     Sprite uczelnia;
@@ -122,7 +141,7 @@ int main() {
     std::vector<RectangleShape> Walls;
 
     RectangleShape wall;
-    wall.setFillColor(Color::Transparent);
+    wall.setFillColor(Color::Red);
     wall.setSize(Vector2f(sukiennice_text.getSize().x,sukiennice_text.getSize().y));
     wall.setOrigin(wall.getSize().x/2, wall.getSize().y/4);
     wall.setPosition(sukiennice.getPosition().x+(sukiennice_text.getSize().x/2), sukiennice.getPosition().y+(sukiennice_text.getSize().y/2));
@@ -130,8 +149,7 @@ int main() {
 
     Walls.push_back(wall);
 
-    //Kolizje
-    FloatRect nextPos;
+
 
     //odswiezanie do animacji
     float delta_time = 0.0f;
@@ -329,8 +347,9 @@ int main() {
                                             music.play();
                                             music_play=true;
                                         }
-                                        object_collision(player_test, Walls, sukiennice_text);
-
+                                        object_collision(player_test, Walls, sukiennice_text, player_test.get_body().getGlobalBounds(), player_test.get_walkspeed(), nextBox);
+                                        FloatRect testPos=player_test.get_body().getGlobalBounds();
+                                        nextBox.setPosition(testPos.left, testPos.top);
                                         //rysowanie gracza, mapy i innych przydatnych rzeczy
                                         window.clear();
                                         window.setView(view);
@@ -345,6 +364,7 @@ int main() {
                                             window.draw(enemy.at(i));
                                         }
                                         window.draw(player_test);
+                                        window.draw(nextBox);
                                         window.draw(uczelnia);
                                         window.draw(uczelnia_2);
                                         window.draw(uczelnia_3);
@@ -462,34 +482,30 @@ bool collision_detection(int enemy_count, vector<NPC> &enemy, Player &player_tes
     } return false;
 }
 
-void object_collision(Player &player_test, vector<RectangleShape> &Walls, Texture sukiennice_text){
-//    for(auto &wall : Walls)
-//    {
-//        FloatRect playerBounds = player_test.get_body().getGlobalBounds();
-//        FloatRect wallBounds = wall.getGlobalBounds();
-//        nextPos = playerBounds;
-//        nextPos.left += 600.0f;//+walk speed ręcznie bo jest prywatny
-//        nextPos.top += 600.0f;
-//
-//        if (wallBounds.intersects(nextPos))
-//        {
-//            std::cout << "Collision" << endl;
-//        }
-//    }
+void object_collision(Player &player_test, vector<RectangleShape> &Walls, Texture sukiennice_text, FloatRect playerBounds, float walkSpeed, RectangleShape nextBox){
 
-    FloatRect box = player_test.get_body().getGlobalBounds();
+
     for(auto &wall : Walls) {
-        if (player_test.get_position().x <= (wall.getPosition().x+sukiennice_text.getSize().x/2) && player_test.get_position().x >= (wall.getPosition().x-sukiennice_text.getSize().x/2)
-           && player_test.get_position().y <= (wall.getPosition().y+sukiennice_text.getSize().y/2) && player_test.get_position().y >= (wall.getPosition().y-sukiennice_text.getSize().y/2))
-        {
-            cout << "Collision\n";
-            //kolizja lewo
-            player_test.set_walkspeed(0.0f);
-            player_test.set_position(player_test.get_position().x, player_test.get_position().y);
-
+            FloatRect nextPos=player_test.get_body().getGlobalBounds();
+            Vector2f velocity=player_test.get_movementVelocity();
+            nextPos.left += velocity.x;
+            nextPos.top += velocity.y;
+            FloatRect wallBounds = wall.getGlobalBounds();
+            if(wallBounds.intersects(nextPos)){
+                cout << "Collision\n";
+            //kolizja prawo
+                if (playerBounds.left < wallBounds.left && playerBounds.left + playerBounds.width < wallBounds.left + wallBounds.width
+                && playerBounds.top < wallBounds.top + wallBounds.height
+                && playerBounds.top + playerBounds.height > wallBounds.top)
+                {
+                    player_test.set_walkspeed(0.f);
+                    player_test.set_position(wallBounds.left-playerBounds.width, player_test.get_position().y);
         }
+    }else{
+            player_test.set_walkspeed(600.f);
+            }
     }
-    player_test.set_walkspeed(600.0f);
+
 
 }
 

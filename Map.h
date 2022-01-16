@@ -7,7 +7,7 @@ class Map {
 public:
     Map();
     void draw(sf::RenderWindow &window);
-
+    void setVisible(bool visibility);;
 private:
     void initIntRect();
 

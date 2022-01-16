@@ -18,9 +18,13 @@ public:
     void update(float delta_time);
     RectangleShape get_body() const { return body;}
     void set_walkspeed(float speed) { walk_speed = speed;}
+    float get_walkspeed(){return walk_speed;}
+    Vector2f get_movementVelocity(){return movement;}
+    void set_movement(Vector2f setMovement){movement=setMovement;}
 
 
 private:
+    Vector2f movement;
     RectangleShape body;
     Animation animation;
     unsigned int row;
