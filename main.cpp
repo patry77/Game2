@@ -177,20 +177,12 @@ int main() {
     Walls.push_back(wall_3);
     Walls.push_back(wall_4);
     //dialog box
-//    Texture dialog_box_txt;
-//    dialog_box_txt.loadFromFile("../dialoguebox1.png");
-//    Sprite dialogbox;
-//    dialogbox.setTexture(dialog_box_txt);
-//    dialogbox.setPosition(player_test.get_position().x-450, player_test.get_position().y+300);
-//    dialogbox.setScale(7, 7);
-
-    //moja propozycja na dialog box
-    RectangleShape dialog_box;
-    dialog_box.setFillColor(Color::Black);
-    dialog_box.setSize(Vector2f(window.getSize().x, window.getSize().y/4));
-    dialog_box.setOrigin(dialog_box.getSize().x/2, dialog_box.getSize().y/2);
-    dialog_box.setPosition(player_test.get_position().x, player_test.get_position().y+dialog_box.getSize().y);
-
+    RectangleShape dialogbox;
+    dialogbox.setSize(Vector2f(900, 200));
+    dialogbox.setFillColor(Color::Black);
+    dialogbox.setOutlineColor(Color::White);
+    dialogbox.setOutlineThickness(5.f);
+    dialogbox.setPosition(player_test.get_position().x-450, player_test.get_position().y+200);
 
     //odswiezanie do animacji
     float delta_time = 0.0f;
@@ -199,6 +191,7 @@ int main() {
     while(window.isOpen()){
         delta_time = clock.restart().asSeconds();
         Event ev{};
+        //MENU
         while(window.pollEvent(ev)){
             switch (ev.type){
                 case Event::KeyReleased:
@@ -446,7 +439,10 @@ int main() {
                                         window.draw(uczelnia);
                                         window.draw(uczelnia_2);
                                         window.draw(uczelnia_3);
-                                        //window.draw(dialog_box);
+                                        if(dialog==true) {
+                                            dialogbox.setPosition(player_test.get_position().x-450, player_test.get_position().y+200);
+                                            window.draw(dialogbox);
+                                        }
                                         //rysowanie collision boxów
                                         for (auto &i : Walls)
                                         {
@@ -568,7 +564,7 @@ void ucieczka_func(Text ucieczka, Vector2f player_test, Font font, RenderWindow&
     ucieczka.setFont(font);
     ucieczka.setFillColor(sf::Color::Magenta);
     ucieczka.setCharacterSize(50);
-    ucieczka.setString("There is no Escape!");
+    ucieczka.setString("Nie ma ucieczki!");
     ucieczka.setPosition(player_test.x-240,player_test.y-60);
     window.draw(ucieczka);
     window.display();
@@ -604,13 +600,13 @@ void stats_func(Text stats, Vector2f player_test, Font font, RenderWindow& windo
     my_health.setFont(font);
     my_health.setFillColor(sf::Color::Red);
     my_health.setCharacterSize(30);
-    my_health.setString("Health : "+ my_health_str);
+    my_health.setString("Życie : "+ my_health_str);
     my_health.setPosition(player_test.x-310,player_test.y-120);
 
     my_damage.setFont(font);
     my_damage.setFillColor(sf::Color::Red);
     my_damage.setCharacterSize(30);
-    my_damage.setString("Damage : "+ my_damage_str);
+    my_damage.setString("Atak : "+ my_damage_str);
     my_damage.setPosition(player_test.x-310,player_test.y-40);
 
     oponent.setFont(font);
@@ -622,13 +618,13 @@ void stats_func(Text stats, Vector2f player_test, Font font, RenderWindow& windo
     op_health.setFont(font);
     op_health.setFillColor(sf::Color::Red);
     op_health.setCharacterSize(30);
-    op_health.setString("Health : "+ op_health_str);
+    op_health.setString("Życie : "+ op_health_str);
     op_health.setPosition(player_test.x+100,player_test.y-120);
 
     op_damage.setFont(font);
     op_damage.setFillColor(sf::Color::Red);
     op_damage.setCharacterSize(30);
-    op_damage.setString("Damage : "+ op_damage_str);
+    op_damage.setString("Atak : "+ op_damage_str);
     op_damage.setPosition(player_test.x+100,player_test.y-40);
 
         window.draw(frame_sprite);
