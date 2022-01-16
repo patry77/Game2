@@ -14,7 +14,7 @@ Combat_menu::Combat_menu(float width, float height, sf::Vector2f player_position
 
     combat_menu[1].setFont(font);
     combat_menu[1].setFillColor(sf::Color::White);
-    combat_menu[1].setString("Use Item");
+    combat_menu[1].setString("Power Up");
     combat_menu[1].setPosition(player_position.x-240,player_position.y+320);
 
     combat_menu[2].setFont(font);

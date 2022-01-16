@@ -43,6 +43,11 @@ int main() {
     if (!music.openFromFile("../muzyka.wav"))
         return -1;
 
+    sf::Music battle_music;
+    battle_music.setVolume(volume);
+    if(!battle_music.openFromFile("../muzyka.wav"))
+        return -1;
+
     //Czcionka
     sf::Font font;
     if (!font.loadFromFile("../alagard.ttf")) {
@@ -145,19 +150,26 @@ int main() {
 
     RectangleShape wall;
     wall.setFillColor(Color::Transparent);
-    wall.setSize(Vector2f(sukiennice_text.getSize().x,sukiennice_text.getSize().y));
+    wall.setSize(Vector2f(sukiennice_text.getSize().x-20,sukiennice_text.getSize().y-(192)));
     wall.setOrigin(wall.getSize().x/2, wall.getSize().y/4);
     wall.setPosition(sukiennice.getPosition().x+(sukiennice_text.getSize().x/2), sukiennice.getPosition().y+(sukiennice_text.getSize().y/2));
 
 
     Walls.push_back(wall);
     //dialog box
-    Texture dialog_box_txt;
-    dialog_box_txt.loadFromFile("../dialoguebox1.png");
-    Sprite dialogbox;
-    dialogbox.setTexture(dialog_box_txt);
-    dialogbox.setPosition(player_test.get_position().x-450, player_test.get_position().y+300);
-    dialogbox.setScale(7, 7);
+//    Texture dialog_box_txt;
+//    dialog_box_txt.loadFromFile("../dialoguebox1.png");
+//    Sprite dialogbox;
+//    dialogbox.setTexture(dialog_box_txt);
+//    dialogbox.setPosition(player_test.get_position().x-450, player_test.get_position().y+300);
+//    dialogbox.setScale(7, 7);
+
+    //moja propozycja na dialog box
+    RectangleShape dialog_box;
+    dialog_box.setFillColor(Color::Black);
+    dialog_box.setSize(Vector2f(window.getSize().x, window.getSize().y/4));
+    dialog_box.setOrigin(dialog_box.getSize().x/2, dialog_box.getSize().y/2);
+    dialog_box.setPosition(player_test.get_position().x, player_test.get_position().y+dialog_box.getSize().y);
 
 
     //odswiezanie do animacji
@@ -203,9 +215,9 @@ int main() {
                                         }
                                         player_test.update(delta_time, Walls);
 
-                                        if (collision_detection(enemy_count, enemy, player_test)) {
-                                            Combat_menu combat_menu(window.getSize().x, window.getSize().y,
-                                                                    player_test.get_position());
+                                        if(collision_detection(enemy_count, enemy, player_test)){
+                                            Combat_menu combat_menu(window.getSize().x, window.getSize().y, player_test.get_position());
+                                            music.stop();
                                             bool ucieczka = false;
                                             bool fight_ongoing = false;
                                             while (!ucieczka && !Keyboard::isKeyPressed(Keyboard::X)) {
@@ -300,8 +312,7 @@ int main() {
                                                                                         60);
                                                                                 window.draw(end_text);
                                                                                 window.display();
-                                                                                music.stop();
-                                                                                Sleep(2000);
+                                                                                Sleep (2000);
                                                                                 window.close();
                                                                                 return 0;
                                                                             }
@@ -320,7 +331,7 @@ int main() {
                                                                                         60);
                                                                                 window.draw(win_text);
                                                                                 window.display();
-                                                                                Sleep(2000);
+                                                                                Sleep (2000);
                                                                                 ucieczka = true;
                                                                                 //reset stats
                                                                                 states.at(0) = 100;
@@ -344,11 +355,10 @@ int main() {
                                                                             }
                                                                         }
                                                                             break;
-                                                                        case 3: {//ucieczka
-                                                                            int szansa_na_ucieczke = (rand() % 99) + 1;
-                                                                            if (szansa_na_ucieczke <= 45)
-                                                                                ucieczka = true;
-                                                                            else {
+                                                                        case 3:{//ucieczka
+                                                                            int szansa_na_ucieczke = (rand() %  99) + 1;
+                                                                            if(szansa_na_ucieczke<=45) ucieczka = true;
+                                                                            else{
                                                                                 Text ucieczka;
                                                                                 ucieczka_func(ucieczka,
                                                                                               player_test.get_position(),
@@ -374,6 +384,7 @@ int main() {
                                                 combat_menu.draw(window);
                                                 window.display();
                                             }
+                                            music.play();
 
                                         }
                                         view.setCenter(player_test.get_position());
@@ -402,7 +413,6 @@ int main() {
                                         window.setView(view);
                                         map.draw(window);
                                         window.draw(sukiennice);
-//                                        window.draw(dialog_box);
                                         window.draw(npc2);
                                         window.draw(npc3);
                                         window.draw(npc4);
@@ -416,6 +426,7 @@ int main() {
                                         window.draw(uczelnia);
                                         window.draw(uczelnia_2);
                                         window.draw(uczelnia_3);
+                                        //window.draw(dialog_box);
                                         //rysowanie collision boxów
                                         for (auto &i : Walls)
                                         {
