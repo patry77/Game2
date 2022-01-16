@@ -67,8 +67,11 @@ int main() {
 
     //NPC
     Texture NPC_texture;
-    NPC_texture.loadFromFile("../Grafika/body_move.png");
+    NPC_texture.loadFromFile("../walka_op.png");
     NPC npc2(&NPC_texture,2800.0f,2800.0f);
+    NPC npc3(&NPC_texture,2900.0f,2400.0f);
+    NPC npc4(&NPC_texture,3000.0f,2800.0f);
+    NPC npc5(&NPC_texture,2800.0f,3000.0f);
 
     //Enemies
     Texture Enemy_texture;
@@ -315,6 +318,9 @@ int main() {
                                         map.draw(window);
                                         window.draw(sukiennice);
                                         window.draw(npc2);
+                                        window.draw(npc3);
+                                        window.draw(npc4);
+                                        window.draw(npc5);
                                         for(int i=0; i<enemy_count; i++){
                                             window.draw(enemy.at(i));
                                         }
