@@ -62,17 +62,17 @@ int main() {
 
     //Gracz
     Texture player_texture;
-    player_texture.loadFromFile("../body_move.png");
+    player_texture.loadFromFile("../Grafika/body_move.png");
     Player player_test(&player_texture, Vector2u(4,4), 0.3f);
 
     //NPC
     Texture NPC_texture;
-    NPC_texture.loadFromFile("../body_move.png");
+    NPC_texture.loadFromFile("../Grafika/body_move.png");
     NPC npc2(&NPC_texture,2800.0f,2800.0f);
 
     //Enemies
     Texture Enemy_texture;
-    Enemy_texture.loadFromFile("../npc1.png");
+    Enemy_texture.loadFromFile("../Grafika/npc1.png");
     int enemy_count = 100;
     vector<NPC> enemy;
     srand( time( NULL ) );
@@ -91,7 +91,7 @@ int main() {
     Map map;
     //Sukiennice co mi się nie chce wrzucić na mapę
     Texture sukiennice_text;
-    sukiennice_text.loadFromFile("../Sukiennice.png");
+    sukiennice_text.loadFromFile("../Grafika/Sukiennice.png");
     Sprite sukiennice;
     sukiennice.setTexture(sukiennice_text);
     sukiennice.setPosition(64*20, 64*20);
@@ -162,7 +162,7 @@ int main() {
 
                                                 //tlo podczas walki
                                                 Texture arena;
-                                                arena.loadFromFile("../arena.png");
+                                                arena.loadFromFile("../Grafika/arena.png");
                                                 Sprite arena_sprite;
                                                 arena_sprite.setTexture(arena);
                                                 arena_sprite.setPosition(player_test.get_position().x,player_test.get_position().y);
