@@ -493,6 +493,7 @@ int main() {
                                                                     if (volume <= 95) {
                                                                         volume += 5;
                                                                         music.setVolume(volume);
+                                                                        Combat_music.setVolume(volume);
                                                                         settings_menu.Change_sound_display(volume);
                                                                     }
                                                                     break;
@@ -500,6 +501,7 @@ int main() {
                                                                     if (volume >= 5) {
                                                                         volume -= 5;
                                                                         music.setVolume(volume);
+                                                                        Combat_music.setVolume(volume);
                                                                         settings_menu.Change_sound_display(volume);
                                                                     }
                                                                     break;
@@ -604,7 +606,7 @@ void stats_func(Text stats, Vector2f player_test, Font font, RenderWindow& windo
     my_health.setFont(font);
     my_health.setFillColor(sf::Color::Red);
     my_health.setCharacterSize(30);
-    my_health.setString("Życie : "+ my_health_str);
+    my_health.setString("Zycie : "+ my_health_str);
     my_health.setPosition(player_test.x-310,player_test.y-120);
 
     my_damage.setFont(font);
@@ -622,7 +624,7 @@ void stats_func(Text stats, Vector2f player_test, Font font, RenderWindow& windo
     op_health.setFont(font);
     op_health.setFillColor(sf::Color::Red);
     op_health.setCharacterSize(30);
-    op_health.setString("Życie : "+ op_health_str);
+    op_health.setString("Zycie : "+ op_health_str);
     op_health.setPosition(player_test.x+100,player_test.y-120);
 
     op_damage.setFont(font);
