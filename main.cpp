@@ -492,7 +492,7 @@ int main() {
                                         window.clear();
                                         window.setView(view);
                                         map.draw(window);
-                                        window.draw(sukiennice);
+
                                         window.draw(npc2);
                                         window.draw(npc3);
                                         window.draw(npc4);
@@ -505,6 +505,7 @@ int main() {
                                             pigeon.at(i).set_size();
                                             window.draw(pigeon.at(i));
                                         }
+                                        window.draw(sukiennice);
                                         window.draw(player_test);
                                         window.draw(nextBox);
                                         window.draw(uczelnia);
