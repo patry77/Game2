@@ -143,7 +143,7 @@ int main() {
     uczelnia_3_text.loadFromFile("../Grafika/Uczelnia_3.png");
     Sprite uczelnia_3;
     uczelnia_3.setTexture(uczelnia_3_text);
-    uczelnia_3.setPosition(64*20, 64*55);
+    uczelnia_3.setPosition(64*60, 64*67);
 
     //granice
     std::vector<RectangleShape> Walls;
@@ -154,8 +154,28 @@ int main() {
     wall.setOrigin(wall.getSize().x/2, wall.getSize().y/4);
     wall.setPosition(sukiennice.getPosition().x+(sukiennice_text.getSize().x/2), sukiennice.getPosition().y+(sukiennice_text.getSize().y/2));
 
+    RectangleShape wall_2;
+    wall_2.setFillColor(Color::Transparent);
+    wall_2.setSize(Vector2f(uczelnia_text.getSize().x-84,uczelnia_text.getSize().y-(250)));
+    wall_2.setOrigin(wall_2.getSize().x/2, wall_2.getSize().y/4);
+    wall_2.setPosition(uczelnia.getPosition().x+(uczelnia_text.getSize().x/2), uczelnia.getPosition().y+(uczelnia_text.getSize().y/2));
+
+    RectangleShape wall_3;
+    wall_3.setFillColor(Color::Transparent);
+    wall_3.setSize(Vector2f(uczelnia_2_text.getSize().x-180,uczelnia_2_text.getSize().y-(190)));
+    wall_3.setOrigin((wall_3.getSize().x/2), wall_3.getSize().y/4);
+    wall_3.setPosition(uczelnia_2.getPosition().x+(uczelnia_2_text.getSize().x/2), uczelnia_2.getPosition().y+(uczelnia_2_text.getSize().y/2));
+
+    RectangleShape wall_4;
+    wall_4.setFillColor(Color::Transparent);
+    wall_4.setSize(Vector2f(uczelnia_3_text.getSize().x-120,uczelnia_3_text.getSize().y-(230)));
+    wall_4.setOrigin(wall_4.getSize().x/2, wall_4.getSize().y/4);
+    wall_4.setPosition(uczelnia_3.getPosition().x+(uczelnia_3_text.getSize().x/2), uczelnia_3.getPosition().y+(uczelnia_3_text.getSize().y/2));
 
     Walls.push_back(wall);
+    Walls.push_back(wall_2);
+    Walls.push_back(wall_3);
+    Walls.push_back(wall_4);
     //dialog box
 //    Texture dialog_box_txt;
 //    dialog_box_txt.loadFromFile("../dialoguebox1.png");
