@@ -9,7 +9,7 @@ Combat_menu::Combat_menu(float width, float height, sf::Vector2f player_position
 
     combat_menu[0].setFont(font);
     combat_menu[0].setFillColor(sf::Color::Red);
-    combat_menu[0].setString("Fight");
+    combat_menu[0].setString("Walcz");
     combat_menu[0].setPosition(player_position.x-480,player_position.y+320);
 
     combat_menu[1].setFont(font);
@@ -19,12 +19,12 @@ Combat_menu::Combat_menu(float width, float height, sf::Vector2f player_position
 
     combat_menu[2].setFont(font);
     combat_menu[2].setFillColor(sf::Color::White);
-    combat_menu[2].setString("Stats");
+    combat_menu[2].setString("Staty");
     combat_menu[2].setPosition(player_position.x+120,player_position.y+320);
 
     combat_menu[3].setFont(font);
     combat_menu[3].setFillColor(sf::Color::White);
-    combat_menu[3].setString("Run");
+    combat_menu[3].setString("Ucieknij");
     combat_menu[3].setPosition(player_position.x+390,player_position.y+320);
 
     selectedItemIndex = 0;
