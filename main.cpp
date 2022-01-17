@@ -45,6 +45,7 @@ void dialog_box(RenderWindow& window, Font font, string text, Sprite dialog_box,
 
 int main() {
     bool dialog=false;
+    bool note1=false;
     //Muzyka
     float volume = 10.0f;
     sf::Music music;
@@ -144,6 +145,20 @@ int main() {
     Sprite sukiennice;
     sukiennice.setTexture(sukiennice_text);
     sukiennice.setPosition(64*35, 64*40);
+
+    //Liścik
+    Texture note_texture;
+    note_texture.loadFromFile("../Grafika/Papier.jpg");
+    Sprite note;
+    note.setTexture(note_texture);
+    note.setPosition(64*42,64*50);
+
+    Texture plot_1_text;
+    plot_1_text.loadFromFile("../Grafika/fabula_1.png");
+    Sprite plot_1;
+    plot_1.setTexture(plot_1_text);
+    plot_1.setPosition(player_test.get_position().x-160, player_test.get_position().y);
+    plot_1.setOrigin(plot_1_text.getSize().x/2, plot_1_text.getSize().y/2);
 
     //Domki do tła
     Texture blok_text;
@@ -514,6 +529,18 @@ int main() {
                                         window.clear();
                                         window.setView(view);
                                         map.draw(window);
+                                        window.draw(note);
+                                        if (player_test.get_body().getGlobalBounds().intersects(note.getGlobalBounds())) {
+                                            if (Keyboard::isKeyPressed(Keyboard::E)) {
+                                                if(!note1){
+                                                    note1=true;
+                                                }
+                                            }
+                                        }
+                                        else{
+                                            note1=false;
+                                        }
+
                                         window.draw(sukiennice);
                                         window.draw(npc2);
 //                                        window.draw(npc3);
@@ -555,6 +582,11 @@ int main() {
                                         for (auto &i : Walls)
                                         {
                                             window.draw(i);
+                                        }
+                                        if (note1==true)
+                                        {
+                                            window.clear();
+                                            window.draw(plot_1);
                                         }
 
                                         window.display();
