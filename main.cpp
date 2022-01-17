@@ -10,7 +10,8 @@
 #include <ctime>
 #include <Windows.h>
 #include <sstream>
-#include <limits>
+#include<iostream>
+#include<fstream>
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 #include "Player.h"
@@ -656,8 +657,24 @@ int main() {
                                 }
                                     break;
 
-                                case 2: //wyjscie
+                                case 2:{//wyjscie
+                                    float x_pos = player_test.get_position().x;
+                                    float y_pos = player_test.get_position().y;
+                                    int int_x_pos = static_cast<int>(x_pos);
+                                    String string_x_pos=to_string(int_x_pos);
+                                    int int_y_pos = static_cast<int>(y_pos);
+                                    String string_y_pos=to_string(int_y_pos);
+                                    string pozycja = string_x_pos + " " + string_y_pos;
+                                    fstream plik;
+                                    plik.open( "../dane.txt");
+                                    if(plik.good())
+                                    {
+                                        plik.write( & pozycja[ 0 ], pozycja.length() );
+                                        plik.close();
+                                    }
                                     window.close();
+                                }
+
                                     break;
 
                             }

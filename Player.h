@@ -13,8 +13,9 @@ public:
     ~Player() = default;
     void allow_input();
     void block_input();
+
     Vector2f get_position() const { return body.getPosition(); }
-    void set_position(float pos_x, float pos_y) { body.setPosition(pos_x, pos_y); } //kiedyś może się przyda
+    void set_position(float pos_x, float pos_y) { body.setPosition(pos_x, pos_y); }
     void collided();
     void update(float delta_time,  std::vector<RectangleShape> &Walls);
     RectangleShape get_body() const { return body;}
