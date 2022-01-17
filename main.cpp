@@ -28,7 +28,7 @@ Clock timer;
 unsigned int character = 0;
 std::string str;
 std::string dialog_npc2 = "Aby zawalczyc z finalowym bossem\nmusisz zdobyc 10 poziom.";
-std::string dialog_npc3 = "hehehehehe";
+std::string dialog_npc3 = "HA heheh";
 int eegg_npc3=1;
 std::string dialog_npc4 = "JESTEM ENPECE3";
 
@@ -56,11 +56,6 @@ Text dialog_box(RenderWindow &window, Font font, string text, Sprite dialog_box,
 int main() {
     bool dialog = false;
     bool note1 = false;
-    bool dialog=false;
-    bool note1=false;
-    bool note2=false;
-    bool note3=false;
-
     //Muzyka
     float volume = 10.0f;
     sf::Music music;
@@ -87,7 +82,7 @@ int main() {
     Settings_menu settings_menu(window.getSize().x, window.getSize().y);
 
     //vector statystyk
-    int quantity_ststs = 7;
+    int quantity_ststs = 9;
     vector<int> states(quantity_ststs);
     vector<int> stats_after_item(quantity_ststs);
     states.at(0) = 100; //zycie
@@ -97,13 +92,14 @@ int main() {
     states.at(4) = 1; //lvl
     states.at(5) = 50; //xp mnoznik lvl*xp = next level
     states.at(6) = 0; //aktualny xp
+    states.at(7)=250; //zycie boss
+    states.at(8)=50; //atak boss
 
     //Gracz
     Texture player_texture;
     player_texture.loadFromFile("../Grafika/body_move.png");
     Player player_test(&player_texture, Vector2u(4, 4), 0.3f);
     FloatRect playerBounds;
-//    FloatRect nextPos;
 
 
     sf::Text text("", font, 40);
@@ -171,34 +167,12 @@ int main() {
     note.setTexture(note_texture);
     note.setPosition(64 * 42, 64 * 50);
 
-    Sprite note_2;
-    note_2.setTexture(note_texture);
-    note_2.setPosition(64*15, 64*10);
-
-    Sprite note_3;
-    note_3.setTexture(note_texture);
-    note_3.setPosition(64*62, 64*18);
-
     Texture plot_1_text;
     plot_1_text.loadFromFile("../Grafika/fabula_1.png");
     Sprite plot_1;
     plot_1.setTexture(plot_1_text);
     plot_1.setPosition(player_test.get_position().x - 160, player_test.get_position().y);
     plot_1.setOrigin(plot_1_text.getSize().x / 2, plot_1_text.getSize().y / 2);
-
-    Texture plot_2_text;
-    plot_2_text.loadFromFile("../Grafika/fabula_2.png");
-    Sprite plot_2;
-    plot_2.setTexture(plot_2_text);
-    plot_2.setPosition(note_2.getPosition().x, note_2.getPosition().y);
-    plot_2.setOrigin(plot_2_text.getSize().x/2, plot_2_text.getSize().y/2);
-
-    Texture plot_3_text;
-    plot_3_text.loadFromFile("../Grafika/fabula_2.png");
-    Sprite plot_3;
-    plot_3.setTexture(plot_3_text);
-    plot_3.setPosition(note_3.getPosition().x, note_3.getPosition().y);
-    plot_3.setOrigin(plot_3_text.getSize().x/2, plot_3_text.getSize().y/2);
 
     //Domki do tła
     Texture blok_text;
@@ -249,12 +223,7 @@ int main() {
     blok_2_6.setTexture(blok_text_2);
     blok_2_6.setPosition(64 * 80, 64 * 77);
 
-//    RectangleShape sukieBox;
-//    sukieBox.setSize(Vector2f(sukiennice_text.getSize().x, sukiennice_text.getSize().y));
-//    sukieBox.setFillColor(Color::Transparent);
-//    sukieBox.setOutlineColor(Color::Red);
-//    sukieBox.setOutlineThickness(3.f);
-//    sukieBox.setPosition(sukiennice.getPosition().x, sukiennice.getPosition().y);
+
 
     Texture uczelnia_text;
     uczelnia_text.loadFromFile("../Grafika/Test.png");
@@ -276,13 +245,13 @@ int main() {
     RectangleShape finalBosstp;
     finalBosstp.setSize(Vector2f(50, 50));
     finalBosstp.setPosition(player_test.get_position().x + 220, player_test.get_position().y - 220);
-    finalBosstp.setFillColor(Color::Red);
+    finalBosstp.setFillColor(Color::Transparent);
     Text finalBossdeny;
     finalBossdeny.setString("Musisz posiadac 10 poziom!");
     finalBossdeny.setFillColor(Color::Blue);
     finalBossdeny.setCharacterSize(40);
     finalBossdeny.setFont(font);
-    finalBossdeny.setPosition(player_test.get_position().x, player_test.get_position().y - 500);
+    finalBossdeny.setPosition(player_test.get_position().x, player_test.get_position().y - 460);
     //granice
     std::vector<RectangleShape> Walls;
 
@@ -382,6 +351,11 @@ int main() {
                                             Combat_menu combat_menu(window.getSize().x, window.getSize().y,
                                                                     player_test.get_position());
                                             music.stop();
+                                            if(final_battle==true){
+                                                Combat_music.openFromFile("../music_shop.wav");
+                                            }else{
+                                                Combat_music.openFromFile("../Combat_music.wav");
+                                            }
                                             Combat_music.play();
                                             bool ucieczka = false;
                                             bool fight_ongoing = false;
@@ -489,6 +463,7 @@ int main() {
                                                                                 return 0;
                                                                             }
                                                                             if (states.at(2) <= 0) {
+
                                                                                 fight_ongoing = false;
                                                                                 int xp = (std::rand() % 20) + 10;
                                                                                 states.at(6) += xp;
@@ -525,6 +500,10 @@ int main() {
                                                                                         20 * (states.at(4) * 0.1 + 1);
                                                                                 states.at(2) = 100;
                                                                                 states.at(3) = 20;
+                                                                                if(final_battle==true){
+                                                                                    window.close();
+                                                                                    return 0;
+                                                                                }
                                                                             }
                                                                         }
                                                                             break;
@@ -601,7 +580,11 @@ int main() {
                                                 if (player_test.get_body().getGlobalBounds().intersects(
                                                         npc3.npcBounds())) {
                                                         for(int i; i<eegg_npc3+1; i++){
-                                                            dialog_npc3+="hehe";
+                                                            if(eegg_npc3<5) {
+                                                                dialog_npc3 += "hehe";
+                                                            }else{
+                                                                dialog_npc3 += "\nhehehehh";
+                                                            }
                                                         }
                                                         str=dialog_npc3;
                                                         eegg_npc3+=1;
@@ -635,9 +618,6 @@ int main() {
                                         window.draw(note);
                                         if (player_test.get_body().getGlobalBounds().intersects(
                                                 note.getGlobalBounds())) {
-                                        window.draw(note_2);
-                                        window.draw(note_3);
-                                        if (player_test.get_body().getGlobalBounds().intersects(note.getGlobalBounds())) {
                                             if (Keyboard::isKeyPressed(Keyboard::E)) {
                                                 if (!note1) {
                                                     note1 = true;
@@ -650,27 +630,6 @@ int main() {
                                         if (Keyboard().isKeyPressed(Keyboard::P)) {
                                             states.at(4) = 10;
                                         }
-                                        if (player_test.get_body().getGlobalBounds().intersects(note_2.getGlobalBounds())) {
-                                            if (Keyboard::isKeyPressed(Keyboard::E)) {
-                                                if(!note2){
-                                                    note2=true;
-                                                }
-                                            }
-                                        }
-                                        else{
-                                            note2=false;
-                                        }
-                                        if (player_test.get_body().getGlobalBounds().intersects(note_3.getGlobalBounds())) {
-                                            if (Keyboard::isKeyPressed(Keyboard::E)) {
-                                                if(!note3){
-                                                    note3=true;
-                                                }
-                                            }
-                                        }
-                                        else{
-                                            note3=false;
-                                        }
-
                                         window.draw(sukiennice);
                                         window.draw(npc2);
                                         window.draw(npc3);
@@ -721,16 +680,6 @@ int main() {
                                         if (note1 == true) {
                                             window.clear();
                                             window.draw(plot_1);
-                                        }
-                                        else if (note2==true)
-                                        {
-                                            window.clear();
-                                            window.draw(plot_2);
-                                        }
-                                        else if (note3==true)
-                                        {
-                                            window.clear();
-                                            window.draw(plot_3);
                                         }
 
                                         window.display();
@@ -943,12 +892,16 @@ void stats_func(Text stats, Vector2f player_test, Font font, RenderWindow &windo
 vector<int> fight_func_logic(int quantity_ststs, vector<int> states, vector<int> stats_after_item, bool final_boss) {
     vector<int> stats{states};
     float lvl = (stats.at(4) * 0.1) + 1;
-    int my_damage = lvl * (std::rand() % 20) + 11 * lvl;
-    int op_damage = (std::rand() % 20) + 10;
+    int my_damage = lvl * (std::rand() % 20) + 10 * lvl;
+    int op_damage;
+    if(final_boss==true) {
+        op_damage = (std::rand() % 20) + 30;
+    }else{
+        op_damage = (std::rand() % 20) + 5;
+    }
 
     int shield = stats_after_item.at(0);
     int sword = stats_after_item.at(1);
-
     //health student
     std::cout << "Zadales " << my_damage + sword << " obrazen przeciwnikowi" << endl << "Zycie przeciwnika: " << stats.at(2)-(my_damage + sword) << endl;
     std::cout << "Przeciwnik Ci zadal " << op_damage << " obrazen" << endl << "Twoje zycie: " << (stats.at(0) - op_damage) + shield << endl << endl;
