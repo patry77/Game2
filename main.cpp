@@ -28,12 +28,12 @@ using namespace std;
 
 Clock timer;
 unsigned int character = 0;
-std::string str = "Patrzcie patrzecie, you're finally \nawake\nWitamy na Krakowskim rynku";
-std::string dialog_npc2 = "Witamy na krakowskim rynku";
+std::string str;
+std::string dialog_npc2 = "Aby zawalczyc z finalowym bossem\nmusisz zdobyc 10 poziom.";
 std::string dialog_npc3 = "hehehehehe";
 std::string dialog_npc4 = "JESTEM ENPECE3";
 
-int player_lvl=1;
+
 Vector2u view_size(1000, 1000);
 bool music_play=false;
 void resize_view(const RenderWindow &window, View &view);
@@ -94,14 +94,14 @@ int main() {
 //    FloatRect nextPos;
 
 
-    sf::Text text("", font, 50);
+    sf::Text text("", font, 40);
     text.setPosition(player_test.get_position().x-400, player_test.get_position().y+200);
 
 
     //NPC
     Texture NPC_texture;
     NPC_texture.loadFromFile("../Grafika/npc.png");
-    NPC npc2(&NPC_texture,2880.0f,3100.0f);
+    NPC npc2(&NPC_texture,3300.0f,3050.0f);
     NPC npc3(&NPC_texture,2900.0f,2400.0f);
     NPC npc4(&NPC_texture,3000.0f,2800.0f);
     NPC npc5(&NPC_texture,2800.0f,3000.0f);
@@ -239,7 +239,16 @@ int main() {
     Sprite uczelnia_3;
     uczelnia_3.setTexture(uczelnia_3_text);
     uczelnia_3.setPosition(64*60, 64*67);
-
+    RectangleShape finalBosstp;
+    finalBosstp.setSize(Vector2f(50, 50));
+    finalBosstp.setPosition(player_test.get_position().x+220, player_test.get_position().y-220);
+    finalBosstp.setFillColor(Color::Red);
+    Text finalBossdeny;
+    finalBossdeny.setString("Musisz posiadac 10 poziom!");
+    finalBossdeny.setFillColor(Color::Blue);
+    finalBossdeny.setCharacterSize(40);
+    finalBossdeny.setFont(font);
+    finalBossdeny.setPosition(player_test.get_position().x, player_test.get_position().y-500);
     //granice
     std::vector<RectangleShape> Walls;
 
@@ -323,7 +332,12 @@ int main() {
                                         }
                                         player_test.update(delta_time, Walls);
 
-                                        if(collision_detection(enemy_count, enemy, player_test)){
+                                        if(collision_detection(enemy_count, enemy, player_test) || player_test.get_body().getGlobalBounds().intersects(finalBosstp.getGlobalBounds())){
+                                            if(player_test.get_body().getGlobalBounds().intersects(finalBosstp.getGlobalBounds())){
+                                                if(states.at(4)>=10){
+                                                    int final_battle=true;
+                                                }
+                                            }
                                             Combat_menu combat_menu(window.getSize().x, window.getSize().y, player_test.get_position());
                                             music.stop();
                                             Combat_music.play();
@@ -577,8 +591,8 @@ int main() {
                                         window.draw(uczelnia);
                                         window.draw(uczelnia_2);
                                         window.draw(uczelnia_3);
-
-
+                                        window.draw(finalBosstp);
+//                                        window.draw(finalBossdeny);
                                         window.draw(blok_2);
                                         window.draw(blok_2_3);
                                         window.draw(blok_2_4);
@@ -590,6 +604,11 @@ int main() {
                                         window.draw(blok4);
                                         window.draw(blok5);
                                         window.draw(blok6);
+                                        if(player_test.get_body().getGlobalBounds().intersects(finalBosstp.getGlobalBounds())){
+                                            if(states.at(4)<10){
+                                                window.draw(finalBossdeny);
+                                            }
+                                        }
 
                                         if(dialog==true) {
                                             dialogbox.setPosition(player_test.get_position().x-450, player_test.get_position().y+200);
