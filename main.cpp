@@ -27,7 +27,7 @@ using namespace std;
 
 Clock timer;
 unsigned int character = 0;
-std::string str = "SIEMA AGH 123 123 test test \ndol";
+std::string str = "Patrzcie patrzecie, you're finally \nawake\nWitamy na Krakowskim rynku";
 
 
 int player_lvl=1;
@@ -93,8 +93,8 @@ int main() {
 
     //NPC
     Texture NPC_texture;
-    NPC_texture.loadFromFile("../walka_op.png");
-    NPC npc2(&NPC_texture,2800.0f,2400.0f);
+    NPC_texture.loadFromFile("../Grafika/npc.png");
+    NPC npc2(&NPC_texture,2880.0f,3100.0f);
     NPC npc3(&NPC_texture,2900.0f,2400.0f);
     NPC npc4(&NPC_texture,3000.0f,2800.0f);
     NPC npc5(&NPC_texture,2800.0f,3000.0f);
@@ -120,7 +120,7 @@ int main() {
     }
     //golebie
     Texture pigeon_texture;
-    pigeon_texture.loadFromFile("../golomp.png");
+    pigeon_texture.loadFromFile("../Grafika/golomp.png");
     int pigeon_count = 50;
     vector<NPC> pigeon;
     srand( time( NULL ) );
@@ -321,7 +321,7 @@ int main() {
 
                                                 //sprite postaci walki:
                                                 Texture my_body;
-                                                my_body.loadFromFile("../walka_ja.png");
+                                                my_body.loadFromFile("../Grafika/walka_ja.png");
                                                 Sprite my_body_sprite;
                                                 my_body_sprite.setTexture(my_body);
                                                 my_body_sprite.setPosition(player_test.get_position().x - 660,
@@ -329,7 +329,7 @@ int main() {
                                                 my_body_sprite.setOrigin(358 / 2, 488 / 2);
 
                                                 Texture op_body;
-                                                op_body.loadFromFile("../Student_Zombie_girl.png");
+                                                op_body.loadFromFile("../Grafika/Student_Zombie_girl.png");
                                                 Sprite op_body_sprite;
                                                 op_body_sprite.setTexture(op_body);
                                                 op_body_sprite.setPosition(player_test.get_position().x + 660,
@@ -338,7 +338,7 @@ int main() {
 
                                                 //krew
                                                 Texture blood;
-                                                blood.loadFromFile("../blood.png");
+                                                blood.loadFromFile("../Grafika/blood.png");
                                                 Sprite blood_sprite_op, blood_sprite_myself;
                                                 blood_sprite_myself.setTexture(blood);
                                                 blood_sprite_myself.setPosition(player_test.get_position().x - 660,
@@ -492,6 +492,9 @@ int main() {
                                                 }
                                             }
                                         }
+                                        else{
+                                            dialog=false;
+                                        }
                                         if(dialog==true){
                                             text.setPosition(player_test.get_position().x-400, player_test.get_position().y+200);
                                             if (timer.getElapsedTime().asMilliseconds() > 50 && character < str.length())
@@ -513,10 +516,10 @@ int main() {
                                         map.draw(window);
                                         window.draw(sukiennice);
                                         window.draw(npc2);
-                                        window.draw(npc3);
-                                        window.draw(npc4);
-                                        window.draw(npc5);
-                                        window.draw(npc6);
+//                                        window.draw(npc3);
+//                                        window.draw(npc4);
+//                                        window.draw(npc5);
+//                                        window.draw(npc6);
                                         for(int i=0; i<enemy_count; i++){
                                             window.draw(enemy.at(i));
                                         }
