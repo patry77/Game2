@@ -56,6 +56,11 @@ Text dialog_box(RenderWindow &window, Font font, string text, Sprite dialog_box,
 int main() {
     bool dialog = false;
     bool note1 = false;
+    bool dialog=false;
+    bool note1=false;
+    bool note2=false;
+    bool note3=false;
+
     //Muzyka
     float volume = 10.0f;
     sf::Music music;
@@ -166,12 +171,34 @@ int main() {
     note.setTexture(note_texture);
     note.setPosition(64 * 42, 64 * 50);
 
+    Sprite note_2;
+    note_2.setTexture(note_texture);
+    note_2.setPosition(64*15, 64*10);
+
+    Sprite note_3;
+    note_3.setTexture(note_texture);
+    note_3.setPosition(64*62, 64*18);
+
     Texture plot_1_text;
     plot_1_text.loadFromFile("../Grafika/fabula_1.png");
     Sprite plot_1;
     plot_1.setTexture(plot_1_text);
     plot_1.setPosition(player_test.get_position().x - 160, player_test.get_position().y);
     plot_1.setOrigin(plot_1_text.getSize().x / 2, plot_1_text.getSize().y / 2);
+
+    Texture plot_2_text;
+    plot_2_text.loadFromFile("../Grafika/fabula_2.png");
+    Sprite plot_2;
+    plot_2.setTexture(plot_2_text);
+    plot_2.setPosition(note_2.getPosition().x, note_2.getPosition().y);
+    plot_2.setOrigin(plot_2_text.getSize().x/2, plot_2_text.getSize().y/2);
+
+    Texture plot_3_text;
+    plot_3_text.loadFromFile("../Grafika/fabula_2.png");
+    Sprite plot_3;
+    plot_3.setTexture(plot_3_text);
+    plot_3.setPosition(note_3.getPosition().x, note_3.getPosition().y);
+    plot_3.setOrigin(plot_3_text.getSize().x/2, plot_3_text.getSize().y/2);
 
     //Domki do tła
     Texture blok_text;
@@ -608,6 +635,9 @@ int main() {
                                         window.draw(note);
                                         if (player_test.get_body().getGlobalBounds().intersects(
                                                 note.getGlobalBounds())) {
+                                        window.draw(note_2);
+                                        window.draw(note_3);
+                                        if (player_test.get_body().getGlobalBounds().intersects(note.getGlobalBounds())) {
                                             if (Keyboard::isKeyPressed(Keyboard::E)) {
                                                 if (!note1) {
                                                     note1 = true;
@@ -620,6 +650,27 @@ int main() {
                                         if (Keyboard().isKeyPressed(Keyboard::P)) {
                                             states.at(4) = 10;
                                         }
+                                        if (player_test.get_body().getGlobalBounds().intersects(note_2.getGlobalBounds())) {
+                                            if (Keyboard::isKeyPressed(Keyboard::E)) {
+                                                if(!note2){
+                                                    note2=true;
+                                                }
+                                            }
+                                        }
+                                        else{
+                                            note2=false;
+                                        }
+                                        if (player_test.get_body().getGlobalBounds().intersects(note_3.getGlobalBounds())) {
+                                            if (Keyboard::isKeyPressed(Keyboard::E)) {
+                                                if(!note3){
+                                                    note3=true;
+                                                }
+                                            }
+                                        }
+                                        else{
+                                            note3=false;
+                                        }
+
                                         window.draw(sukiennice);
                                         window.draw(npc2);
                                         window.draw(npc3);
@@ -670,6 +721,16 @@ int main() {
                                         if (note1 == true) {
                                             window.clear();
                                             window.draw(plot_1);
+                                        }
+                                        else if (note2==true)
+                                        {
+                                            window.clear();
+                                            window.draw(plot_2);
+                                        }
+                                        else if (note3==true)
+                                        {
+                                            window.clear();
+                                            window.draw(plot_3);
                                         }
 
                                         window.display();
