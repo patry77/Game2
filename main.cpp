@@ -29,7 +29,9 @@ using namespace std;
 Clock timer;
 unsigned int character = 0;
 std::string str = "Patrzcie patrzecie, you're finally \nawake\nWitamy na Krakowskim rynku";
-
+std::string dialog_npc2 = "Witamy na krakowskim rynku";
+std::string dialog_npc3 = "hehehehehe";
+std::string dialog_npc4 = "JESTEM ENPECE3";
 
 int player_lvl=1;
 Vector2u view_size(1000, 1000);
@@ -41,7 +43,7 @@ void stats_func(Text stats, Vector2f player_test, Font font, RenderWindow& windo
 vector <int> fight_func_logic(int quantity_ststs, vector <int> states, vector <int> stats_after_item);
 void fight_func_draw(Vector2f player_test, Font font, RenderWindow& window);
 vector <int> use_item_func(int quantity_ststs);
-void dialog_box(RenderWindow& window, Font font, string text, Sprite dialog_box, Vector2f player_position);
+Text dialog_box(RenderWindow& window, Font font, string text, Sprite dialog_box, Vector2f player_position);
 
 
 int main() {
@@ -73,13 +75,16 @@ int main() {
     Settings_menu settings_menu(window.getSize().x, window.getSize().y);
 
     //vector statystyk
-    int quantity_ststs=4;
+    int quantity_ststs=7;
     vector <int> states (quantity_ststs);
     vector <int> stats_after_item (quantity_ststs);
-    states.at(0)=100;
-    states.at(1)=20;
-    states.at(2)=100;
-    states.at(3)=20;
+    states.at(0)=100; //zycie
+    states.at(1)=20; //atak
+    states.at(2)=100; //zycie przeciwnika
+    states.at(3)=20; // atak przeciwnika
+    states.at(4)=1; //lvl
+    states.at(5)=50; //xp mnoznik lvl*xp = next level
+    states.at(6)=0; //aktualny xp
 
     //Gracz
     Texture player_texture;
@@ -340,16 +345,18 @@ int main() {
                                                 my_body.loadFromFile("../Grafika/walka_ja.png");
                                                 Sprite my_body_sprite;
                                                 my_body_sprite.setTexture(my_body);
-                                                my_body_sprite.setPosition(player_test.get_position().x - 660,
-                                                                           player_test.get_position().y - 120);
+                                                my_body_sprite.setPosition(player_test.get_position().x-300,
+                                                                           player_test.get_position().y-80);
+                                                my_body_sprite.setScale(0.5, 0.5);
                                                 my_body_sprite.setOrigin(358 / 2, 488 / 2);
 
                                                 Texture op_body;
                                                 op_body.loadFromFile("../Grafika/Student_Zombie_girl.png");
                                                 Sprite op_body_sprite;
                                                 op_body_sprite.setTexture(op_body);
-                                                op_body_sprite.setPosition(player_test.get_position().x + 660,
-                                                                           player_test.get_position().y - 120);
+                                                op_body_sprite.setPosition(player_test.get_position().x + 220,
+                                                                           player_test.get_position().y - 80);
+                                                op_body_sprite.setScale(0.7, 0.7);
                                                 op_body_sprite.setOrigin(360 / 2, 360 / 2);
 
                                                 //krew
@@ -357,13 +364,13 @@ int main() {
                                                 blood.loadFromFile("../Grafika/blood.png");
                                                 Sprite blood_sprite_op, blood_sprite_myself;
                                                 blood_sprite_myself.setTexture(blood);
-                                                blood_sprite_myself.setPosition(player_test.get_position().x - 660,
+                                                blood_sprite_myself.setPosition(player_test.get_position().x - 300,
                                                                                 player_test.get_position().y - 80);
                                                 blood_sprite_myself.setOrigin(250 / 2, 300 / 2);
 
                                                 blood_sprite_op.setTexture(blood);
-                                                blood_sprite_op.setPosition(player_test.get_position().x + 660,
-                                                                            player_test.get_position().y - 100);
+                                                blood_sprite_op.setPosition(player_test.get_position().x + 220,
+                                                                            player_test.get_position().y - 80);
                                                 blood_sprite_op.setOrigin(250 / 2, 300 / 2);
 
                                                 while (window.pollEvent(ev)) {
@@ -422,12 +429,23 @@ int main() {
                                                                             }
                                                                             if (states.at(2) <= 0) {
                                                                                 fight_ongoing = false;
+                                                                                int xp = ( std::rand() % 20 ) + 10;
+                                                                                states.at(6) +=xp;
+                                                                                std::string xp_string= std::to_string(xp);
+                                                                                std::string win_mess = "Zwyciestwo! \n XP: +";
+                                                                                win_mess += xp_string;
+                                                                                if(states.at(6)>=states.at(5)*states.at(4)) {
+                                                                                    states.at(4)+=1;
+                                                                                    win_mess += "\nLevel up! (";
+                                                                                    win_mess += to_string(states.at(4));
+                                                                                    win_mess += "lvl)";
+                                                                                }
                                                                                 Text win_text;
                                                                                 win_text.setFont(font);
                                                                                 win_text.setFillColor(
                                                                                         sf::Color::Yellow);
                                                                                 win_text.setCharacterSize(60);
-                                                                                win_text.setString("VICTORY!");
+                                                                                win_text.setString(win_mess);
                                                                                 win_text.setPosition(
                                                                                         player_test.get_position().x -
                                                                                         180,
@@ -501,14 +519,19 @@ int main() {
 //                                                         player_test.get_body().getGlobalBounds(),
 //                                                         player_test.get_walkspeed(), nextBox);
 
-                                        if (player_test.get_body().getGlobalBounds().intersects(npc2.npcBounds())) {
-                                            if (Keyboard::isKeyPressed(Keyboard::E)) {
+
+                                        if (Keyboard::isKeyPressed(Keyboard::E)) {
+                                            if (player_test.get_body().getGlobalBounds().intersects(npc2.npcBounds())) {str=dialog_npc2;}
+                                            if (player_test.get_body().getGlobalBounds().intersects(npc3.npcBounds())) {str=dialog_npc3;}
+                                            if (player_test.get_body().getGlobalBounds().intersects(npc4.npcBounds())) {str=dialog_npc4;}
+
+
                                                 if(!dialog){
                                                     dialog=true;
                                                 }
                                             }
-                                        }
                                         else{
+                                            character=0;
                                             dialog=false;
                                         }
                                         if(dialog==true){
@@ -520,12 +543,6 @@ int main() {
                                                 text.setString( sf::String( str.substr(0, character) ) );
                                             }
                                         }
-//                                        if (dialog == true) {
-//                                            while (!Keyboard::isKeyPressed(Keyboard::E)) {
-//                                            dialog_box(window, font, "Test siema", dialogbox,
-//                                                       player_test.get_position());
-//                                            }
-//                                        }
                                         //rysowanie gracza, mapy i innych przydatnych rzeczy
                                         window.clear();
                                         window.setView(view);
@@ -544,8 +561,8 @@ int main() {
 
                                         window.draw(sukiennice);
                                         window.draw(npc2);
-//                                        window.draw(npc3);
-//                                        window.draw(npc4);
+                                        window.draw(npc3);
+                                        window.draw(npc4);
 //                                        window.draw(npc5);
 //                                        window.draw(npc6);
                                         for(int i=0; i<enemy_count; i++){
@@ -797,7 +814,8 @@ void stats_func(Text stats, Vector2f player_test, Font font, RenderWindow& windo
 }
 vector <int> fight_func_logic(int quantity_ststs, vector <int> states, vector <int> stats_after_item){
     vector <int> stats {states};
-    int my_damage =( std::rand() % 20 ) + 10;
+    int lvl=stats.at(4);
+    int my_damage =lvl*( std::rand() % 20 ) + 20;
     int op_damage =( std::rand() % 20 ) + 10;
 
     int shield = stats_after_item.at(0);
@@ -828,18 +846,6 @@ vector <int> use_item_func(int quantity_ststs){
     return stats_after_item;
 }
 //do poprawy
-void dialog_box(RenderWindow& window, Font font, string text, Sprite dialog_box, Vector2f player_position){
-    window.draw(dialog_box);
-    Text dialog;
-    dialog.setFont(font);
-    dialog.setFillColor(sf::Color::Red);
-    dialog.setCharacterSize(30);
-    dialog.setPosition(player_position.x+100,player_position.y-40);
-    String animation;
-    for(int i;i<text.length();i++){
-        animation+=text[i];
-        dialog.setString(animation);
-        Sleep(200);
-        window.draw(dialog);
-    }
+Text dialog_box(RenderWindow& window, Font font, string text, Sprite dialog_box, Vector2f player_position){
+
 }
